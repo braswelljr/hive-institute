@@ -35,4 +35,6 @@ yarn-error.log*
 
 # lockfiles
 package-lock.json
+
+# editor configs
 .vscode
