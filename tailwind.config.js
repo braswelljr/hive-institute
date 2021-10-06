@@ -13,10 +13,11 @@ module.exports = {
     },
     extend: {
       colors: {
-        gray: color.trueGray
+        gray: color.trueGray,
+        primary: { deep: '#ff4400', moderate: '#ff6600', light: '#ff8800' }
       },
       fontFamily: {
-        sans: ["'Mulish'", ...defaultTheme.fontFamily.sans]
+        sans: ["'Montserrat'", ...defaultTheme.fontFamily.sans]
       }
     }
   },
