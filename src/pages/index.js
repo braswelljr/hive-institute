@@ -1,6 +1,9 @@
+import { useState } from 'react'
 import clsx from 'clsx'
 
 const Index = () => {
+  const [auth, setAuth] = useState('login')
+
   return (
     <main className={clsx('w-full h-screen flex')}>
       <div className="relative hidden w-1/2 h-full lg:block">
