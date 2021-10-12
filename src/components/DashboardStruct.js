@@ -20,7 +20,7 @@ const DashboardStruct = ({ children }) => {
 
   useIsomorphicLayoutEffect(() => {
     router.push(tab === 'courses' ? '/dashboard' : `/dashboard/${tab}`)
-    setMenu(!menu)
+    setMenu(true)
   }, [tab])
 
   return (
