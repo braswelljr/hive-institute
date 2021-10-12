@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import clsx from 'clsx'
+import Link from 'next/link'
 
 const Index = () => {
   const [auth, setAuth] = useState('login')
@@ -40,43 +41,143 @@ const Index = () => {
               </div>
             </div>
             <h1 className="text-3xl font-extrabold text-center capitalize text-primary-moderate">
-              Sign in
+              {auth == 'login' ? 'Sign in' : 'Sign Up'}
             </h1>
           </div>
-          <form method="POST" className="mt-12 space-y-5 text-gray-700">
-            <div className="text-xl rounded-md">
-              <label htmlFor="email" className="">
-                Email
-              </label>
-              <input
-                type="text"
-                name="email"
-                id="email"
-                placeholder="Email"
-                autoComplete="off"
-                className="w-full px-3 py-2 bg-yellow-100 border rounded focus:outline-none"
-              />
-            </div>
-            <div className="text-xl rounded-md">
-              <label htmlFor="password" className="">
-                Password
-              </label>
-              <input
-                type="password"
-                name="email"
-                id="password"
-                placeholder="Email"
-                autoComplete="off"
-                className="w-full px-3 py-2 bg-yellow-100 border rounded focus:outline-none"
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full px-3 py-2 text-xl font-bold text-white rounded bg-primary-moderate hover:bg-primary-deep focus:outline-none"
-            >
-              Sign In
-            </button>
-          </form>
+          {auth == 'login' ? (
+            <form method="POST" className="mt-12 space-y-5 text-gray-700">
+              <div className="text-xl rounded-md">
+                <label htmlFor="email" className="">
+                  Email
+                </label>
+                <input
+                  type="text"
+                  name="email"
+                  id="email"
+                  placeholder="Email"
+                  autoComplete="off"
+                  className="w-full px-3 py-2 bg-yellow-100 border rounded focus:outline-none"
+                />
+              </div>
+              <div className="text-xl rounded-md">
+                <label htmlFor="password" className="">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  name="email"
+                  id="password"
+                  placeholder="Password"
+                  autoComplete="off"
+                  className="w-full px-3 py-2 bg-yellow-100 border rounded focus:outline-none"
+                />
+              </div>
+              <Link href="/dashboard">
+                <button
+                  type="submit"
+                  className="w-full px-3 py-2 text-xl font-bold text-white rounded bg-primary-moderate hover:bg-primary-deep focus:outline-none"
+                >
+                  Sign In
+                </button>
+              </Link>
+              <p className="text-center">
+                Don't have an account,{' '}
+                <button
+                  type='="button'
+                  className="cursor-pointer text-primary-deep"
+                  onClick={() => setAuth('signup')}
+                >
+                  Sign Up
+                </button>
+              </p>
+            </form>
+          ) : (
+            <form method="POST" className="mt-12 space-y-5 text-gray-700">
+              <div className="text-xl rounded-md">
+                <label htmlFor="name" className="">
+                  Fullname
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  placeholder="Fullname"
+                  autoComplete="off"
+                  className="w-full px-3 py-2 bg-yellow-100 border rounded focus:outline-none"
+                />
+              </div>
+              <div className="text-xl rounded-md">
+                <label htmlFor="dob" className="">
+                  Date of Birth
+                </label>
+                <input
+                  type="date"
+                  name="dob"
+                  id="dob"
+                  placeholder=""
+                  autoComplete="off"
+                  className="w-full px-3 py-2 bg-yellow-100 border rounded focus:outline-none"
+                />
+              </div>
+              <div className="text-xl rounded-md">
+                <label htmlFor="email" className="">
+                  Email
+                </label>
+                <input
+                  type="text"
+                  name="email"
+                  id="email"
+                  placeholder="Email"
+                  autoComplete="off"
+                  className="w-full px-3 py-2 bg-yellow-100 border rounded focus:outline-none"
+                />
+              </div>
+              <div className="text-xl rounded-md">
+                <label htmlFor="phone" className="" aria-label="phone">
+                  Phone
+                </label>
+                <input
+                  type="tel"
+                  name="phone"
+                  id="phone"
+                  placeholder=""
+                  autoComplete="off"
+                  aria-placeholder="233-500-181-106"
+                  className="w-full px-3 py-2 bg-yellow-100 border rounded focus:outline-none"
+                />
+              </div>
+              <div className="text-xl rounded-md">
+                <label htmlFor="password" className="">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  name="email"
+                  id="password"
+                  placeholder="Password"
+                  autoComplete="off"
+                  className="w-full px-3 py-2 bg-yellow-100 border rounded focus:outline-none"
+                />
+              </div>
+              <Link href="/dashboard">
+                <button
+                  type="submit"
+                  className="w-full px-3 py-2 text-xl font-bold text-white rounded bg-primary-moderate hover:bg-primary-deep focus:outline-none"
+                >
+                  Sign Up
+                </button>
+              </Link>
+              <p className="text-center">
+                Already have an account,{' '}
+                <span
+                  className="cursor-pointer text-primary-deep"
+                  onClick={() => setAuth('login')}
+                >
+                  Sign In
+                </span>
+              </p>
+            </form>
+          )}
         </div>
       </div>
     </main>

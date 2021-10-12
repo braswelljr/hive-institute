@@ -7,6 +7,7 @@
       "@/img/*": ["src/img/*"],
       "@/configs/*": ["src/configs/*"],
       "@/components/*": ["src/components/*"],
+      "@/context/*": ["src/context/*"],
       "@/pages/*": ["src/pages/*"],
       "@/hooks/*": ["src/hooks/*"],
       "@/utils/*": ["src/utils/*"],

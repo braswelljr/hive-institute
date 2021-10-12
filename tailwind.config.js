@@ -14,10 +14,12 @@ module.exports = {
     extend: {
       colors: {
         gray: color.trueGray,
-        primary: { deep: '#ff4400', moderate: '#ff6600', light: '#ff8800' }
+        primary: { deep: '#ff4400', moderate: '#ff6600', light: '#ff8800' },
+        secondary: { deep: '#863000', light: '#fde6aa' }
       },
       fontFamily: {
-        sans: ["'Montserrat'", ...defaultTheme.fontFamily.sans]
+        sans: ["'Ubuntu'", ...defaultTheme.fontFamily.sans],
+        serif: ["'Montserrat'", ...defaultTheme.fontFamily.serif]
       }
     }
   },
