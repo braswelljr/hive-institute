@@ -11,19 +11,22 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@headlessui/react": "^1.4.1",
     "@next/eslint-plugin-next": "^11.1.2",
-    "autoprefixer": "^10.3.6",
+    "autoprefixer": "^10.3.7",
     "clsx": "^1.1.1",
     "file-loader": "^6.2.0",
     "framer-motion": "^4.1.17",
     "next": "^11.1.2",
     "next-compose-plugins": "^2.2.1",
     "next-pwa": "^5.3.1",
-    "postcss": "^8.2.15",
+    "postcss": "^8.3.9",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-icons": "^4.3.1",
-    "sass": "^1.42.1"
+    "sass": "^1.42.1",
+    "tailwindcss": "^2.2.16",
+    "zustand": "^3.5.13"
   },
   "devDependencies": {
     "eslint": "^7.32.0",

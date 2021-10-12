@@ -18,24 +18,25 @@ module.exports = withPlugins(
   ],
   {
     pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
-    webpack5: true,
+    webpack5: false,
     sassOptions: {
       includePaths: [path.join(__dirname, 'styles')]
     },
     webpack: (config, options) => {
+      // options -> { buildId, dev, isServer, defaultLoaders, webpack }
       if (!options.dev) {
         options.defaultLoaders.babel.options.cache = false
       }
 
       config.module.rules.push({
-        test: /\.(jpe?g|png|svg|gif|ico|eot|ttf|woff|woff2|mp4|pdf|webm|txt)$/i,
+        test: /\.(jpe?g|png|svg|gif|ico|eot|ttf|woff|woff2|mp4|pdf|webp|txt)$/i,
         use: [
-          options.defaultLoaders.babel,
           {
             loader: 'file-loader',
             options: {
+              esModule: false,
               publicPath: '/_next',
-              name: 'static/media/[hash].[ext]'
+              name: 'static/media/[name].[hash].[ext]'
             }
           }
         ]
