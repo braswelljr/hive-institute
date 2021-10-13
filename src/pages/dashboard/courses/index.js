@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Tabs from '@/components/Tabs'
 import DisClosure from '@/components/DisClosure'
 import { motion, AnimateSharedLayout } from 'framer-motion'
-import { enrolledCourses, unenrolledCourses } from '../../data/course'
+import { enrolledCourses, unenrolledCourses } from '../../../data/course'
 
 const Dashboard = () => {
   const [courseState, setCourseState] = useState('enrolled') // -> enrolled or unenrolled

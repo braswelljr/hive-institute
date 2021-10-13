@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import { Disclosure } from '@headlessui/react'
 import { HiChevronDown } from 'react-icons/hi'
 
-const DisClosure = ({ title, description, cta }) => {
+const DisClosure = ({ title, description, cta, ctaClassName }) => {
   return (
     <Disclosure>
       {({ open }) => (
@@ -20,7 +20,7 @@ const DisClosure = ({ title, description, cta }) => {
           </Disclosure.Button>
           <Disclosure.Panel className="relative px-4 pt-4 pb-2 text-sm text-gray-500 transition-all duration-200 shadow-sm">
             <p>{description}</p>
-            <div className="">{cta}</div>
+            <div className={clsx('', ctaClassName)}>{cta}</div>
           </Disclosure.Panel>
         </>
       )}
