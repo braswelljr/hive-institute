@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import clsx from 'clsx'
 import Link from 'next/link'
+import { BiError } from 'react-icons/bi'
 
 const Index = () => {
   const [auth, setAuth] = useState('login')
-  const [loginEmail, setLoginEmail] = useState({ value: '', valid: false })
+  const [loginEmail, setLoginEmail] = useState({ value: '', valid: true })
   const [loginPassword, setLoginPassword] = useState({
     value: '',
-    valid: false
+    valid: true
   })
 
   return (
@@ -69,6 +70,7 @@ const Index = () => {
                   placeholder="Email"
                   autoComplete="off"
                   value={loginEmail.value}
+                  onFocus={() => setLoginEmail({ ...loginEmail, valid: false })}
                   onChange={e => {
                     setLoginEmail({
                       value: e.target.value,
@@ -85,7 +87,10 @@ const Index = () => {
                   )}
                 />
                 {!loginEmail.valid && (
-                  <span className="text-red-500">Invalid email</span>
+                  <span className="inline-flex items-center text-xs text-red-500">
+                    <BiError className="inline w-auto h-4 mr-2" />
+                    <span>Invalid Email</span>
+                  </span>
                 )}
               </div>
               <div className="text-lg rounded-md">
@@ -99,12 +104,14 @@ const Index = () => {
                   placeholder="Password"
                   autoComplete="off"
                   value={loginPassword.value}
+                  onFocus={() =>
+                    setLoginPassword({ ...loginPassword, valid: false })
+                  }
                   onChange={e => {
                     setLoginPassword({
                       value: e.target.value,
                       valid: loginPassword.value.length >= 8 ? true : false
                     })
-                    console.log(loginPassword.valid, loginPassword.value.length)
                   }}
                   className={clsx(
                     'w-full px-3 py-2 bg-yellow-100 border rounded focus:outline-none',
@@ -112,10 +119,13 @@ const Index = () => {
                   )}
                 />
                 {!loginPassword.valid && (
-                  <span className="text-red-500">Invalid Password</span>
+                  <span className="items-center text-xs text-red-500 nline-flex">
+                    <BiError className="inline w-auto h-4 mr-2" />
+                    <span>Invalid Password</span>
+                  </span>
                 )}
               </div>
-              <Link href="/dashboard/courses">
+              <Link href="/verify">
                 <button
                   type="submit"
                   className="w-full px-3 py-2 text-lg font-semibold text-white rounded bg-primary-semi hover:bg-primary-moderate focus:outline-none"
@@ -203,7 +213,7 @@ const Index = () => {
                   className="w-full px-3 py-2 bg-yellow-100 border rounded focus:outline-none"
                 />
               </div>
-              <Link href="/dashboard/courses">
+              <Link href="/verify">
                 <button
                   type="submit"
                   className="w-full px-3 py-2 text-lg font-semibold text-white rounded bg-primary-semi hover:bg-primary-moderate focus:outline-none"
