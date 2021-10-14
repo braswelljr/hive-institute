@@ -1,24 +1,33 @@
-import { useState, useContext } from 'react'
+import { useState, forwardRef } from 'react'
 import { HiChatAlt2, HiPlus } from 'react-icons/hi'
 import { FiUser } from 'react-icons/fi'
 import clsx from 'clsx'
 import Link from 'next/link'
+import { HiCreditCard, HiCalendar, HiAcademicCap } from 'react-icons/hi'
 import { useRouter } from 'next/router'
-import Tabs from '@/components/Tabs'
-import { useIsomorphicLayoutEffect } from '@/hooks/useIsomorphicEffect'
-import { AppContext } from '@/context/AppContext'
-import { dashboard } from '@/components/TabMenu'
 
-const DashboardStruct = ({ children }) => {
-  const { menuTab, setMenuTab } = useContext(AppContext)
-  const [menu, setMenu] = useState(true)
+const MenuTab = forwardRef(({ children, href, setMenu }, ref) => {
   const router = useRouter()
 
-  // push to route
-  useIsomorphicLayoutEffect(() => {
-    router.push(`/dashboard/${menuTab}`)
-    setMenu(true)
-  }, [menuTab])
+  return (
+    <Link href={encodeURI(href)} ref={ref}>
+      <button
+        className={clsx(
+          'flex items-center rounded-2xl font-bold justify-start px-4 py-1 space-x-3',
+          {
+            'bg-secondary-light': router.pathname === `${href}`
+          }
+        )}
+        onClick={() => setMenu(true)}
+      >
+        {children}
+      </button>
+    </Link>
+  )
+})
+
+const DashboardStruct = ({ children }) => {
+  const [menu, setMenu] = useState(true)
 
   return (
     <main className="">
@@ -71,15 +80,28 @@ const DashboardStruct = ({ children }) => {
           { '-translate-x-full lg:translate-x-0': menu }
         )}
       >
-        <Tabs
-          tabs={dashboard}
-          selected={menuTab}
-          onChange={setMenuTab}
-          className="flex-col mt-12"
-          indicatorClassName="bg-secondary-light rounded-full"
-          tabClassName="text-secondary-deep"
-          layout="row"
-        />
+        <div
+          className={clsx(
+            'flex flex-col mt-12 space-y-4 text-secondary-deep relative font-bold'
+          )}
+        >
+          <MenuTab href={'/dashboard/courses'} setMenu={setMenu}>
+            <HiAcademicCap className="w-auto h-5" />
+            <span className={clsx('')}>Courses</span>
+          </MenuTab>
+          <MenuTab href={'/dashboard/events'} setMenu={setMenu}>
+            <HiCalendar className="w-auto h-5" />
+            <span className={clsx('')}>Events</span>
+          </MenuTab>
+          <MenuTab href={'/dashboard/profile'} setMenu={setMenu}>
+            <FiUser className="w-auto h-5" />
+            <span className={clsx('')}>Profile</span>
+          </MenuTab>
+          <MenuTab href={'/dashboard/account'} setMenu={setMenu}>
+            <HiCreditCard className="w-auto h-5" />
+            <span className={clsx('')}>Account</span>
+          </MenuTab>
+        </div>
       </nav>
       <section className="h-auto mt-28 mx-8 lg:mx-auto relative z-[8] lg:mt-24 lg:ml-[20%] lg:mr-[2.5%]">
         <section className="max-w-5xl mx-auto">{children}</section>
