@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Tabs from '@/components/Tabs'
 import DisClosure from '@/components/DisClosure'
 import { motion, AnimateSharedLayout } from 'framer-motion'
+import clsx from 'clsx'
 import { enrolledCourses, unenrolledCourses } from '../../../data/course'
 
 const Dashboard = () => {
@@ -61,6 +62,18 @@ const Dashboard = () => {
                   <DisClosure
                     title={course.course}
                     description={course.description}
+                    cta={
+                      <div className={clsx('flex justify-end mt-3')}>
+                        <button
+                          type="button"
+                          className={clsx(
+                            'px-4 py-2 bg-secondary-light rounded-md font-bold'
+                          )}
+                        >
+                          View Course
+                        </button>
+                      </div>
+                    }
                   />
                 </motion.div>
               ))}
@@ -80,6 +93,18 @@ const Dashboard = () => {
                     key={course.id}
                     title={course.course}
                     description={course.description}
+                    cta={
+                      <div className={clsx('flex justify-end mt-3')}>
+                        <button
+                          type="button"
+                          className={clsx(
+                            'px-4 py-2 bg-secondary-light rounded-md font-bold'
+                          )}
+                        >
+                          Enroll
+                        </button>
+                      </div>
+                    }
                   />
                 </motion.div>
               ))}

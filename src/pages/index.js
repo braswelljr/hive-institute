@@ -1,7 +1,5 @@
 import { useState } from 'react'
 import clsx from 'clsx'
-import Link from 'next/link'
-import { BiError } from 'react-icons/bi'
 import Signup from '@/components/Signup'
 import Login from '@/components/Login'
 
@@ -23,6 +21,7 @@ const Index = () => {
               alt="logo"
               className="w-auto mx-auto h-36"
             />
+            hello
           </div>
         </div>
       </div>

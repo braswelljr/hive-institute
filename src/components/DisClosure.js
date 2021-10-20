@@ -18,9 +18,9 @@ const DisClosure = ({ title, description, cta, ctaClassName }) => {
               )}
             />
           </Disclosure.Button>
-          <Disclosure.Panel className="relative px-4 pt-4 pb-2 text-sm text-gray-500 transition-all duration-200 shadow-sm">
-            <p>{description}</p>
-            <div className={clsx('', ctaClassName)}>{cta}</div>
+          <Disclosure.Panel className="relative px-4 pt-4 pb-2 text-sm transition-all duration-200 rounded-lg shadow-sm bg-gray-50 text-secondary-deep">
+            <p className="first-letter:text-3xl">{description}</p>
+            <div className={clsx(ctaClassName)}>{cta}</div>
           </Disclosure.Panel>
         </>
       )}

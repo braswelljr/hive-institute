@@ -1,15 +1,9 @@
-import { createContext, useState } from 'react'
+import { createContext } from 'react'
 
 export const AppContext = createContext()
 
 const AppProvider = ({ children }) => {
-  const [tab, setTab] = useState('courses')
-
-  return (
-    <AppContext.Provider value={{ menuTab: tab, setMenuTab: setTab }}>
-      {children}
-    </AppContext.Provider>
-  )
+  return <AppContext.Provider value={{}}>{children}</AppContext.Provider>
 }
 
 export default AppProvider

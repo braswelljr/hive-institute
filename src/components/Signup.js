@@ -2,11 +2,13 @@ import { useState } from 'react'
 import clsx from 'clsx'
 import { BiError } from 'react-icons/bi'
 import Link from 'next/link'
+import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input'
+import flags from 'react-phone-number-input/flags'
 
 const Signup = ({ setAuth }) => {
   const [signupName, setSignupName] = useState({ value: '', valid: true })
   const [signupEmail, setSignupEmail] = useState({ value: '', valid: true })
-  const [signupPhone, setSignupPhone] = useState({ value: '', valid: true })
+  const [signupPhone, setSignupPhone] = useState('')
   const [signupPassword, setSignupPassword] = useState({
     value: '',
     valid: true
@@ -100,7 +102,7 @@ const Signup = ({ setAuth }) => {
         <label htmlFor="phone" className="" aria-label="phone">
           Phone
         </label>
-        <input
+        {/* <input
           type="tel"
           name="phone"
           id="phone"
@@ -108,6 +110,23 @@ const Signup = ({ setAuth }) => {
           autoComplete="off"
           aria-placeholder="233-500-181-106"
           className="w-full px-3 py-2 bg-yellow-100 border rounded focus:outline-none"
+        /> */}
+        <PhoneInput
+          flags={flags}
+          international
+          countryCallingCodeEditable={false}
+          withCountryCallingCode={true}
+          defaultCountry="GH"
+          placeholder="50 018 1106"
+          value={signupPhone}
+          onChange={setSignupPhone}
+          error={
+            signupPhone
+              ? isValidPhoneNumber(signupPhone)
+                ? undefined
+                : 'Invalid phone number'
+              : 'Phone number required'
+          }
         />
       </div>
       <div className="rounded-md text-md">

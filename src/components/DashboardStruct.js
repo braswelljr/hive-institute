@@ -4,7 +4,7 @@ import { FiUser } from 'react-icons/fi'
 import clsx from 'clsx'
 import Link from 'next/link'
 import { HiCreditCard, HiCalendar, HiAcademicCap } from 'react-icons/hi'
-import { useRouter } from 'next/router'
+import router, { useRouter } from 'next/router'
 
 const MenuTab = forwardRef(({ children, href, setMenu }, ref) => {
   const router = useRouter()
@@ -44,11 +44,18 @@ const DashboardStruct = ({ children }) => {
           <button type="button">
             <HiChatAlt2 className="w-auto h-8" />
           </button>
-          <Link href="/dashboard/profile">
-            <button type="button">
-              <FiUser className="w-auto h-8" />
-            </button>
-          </Link>
+          {
+            <Link href="/dashboard/profile">
+              <button
+                type="button"
+                className={clsx('', {
+                  hidden: router.path === '/dashboard/profile'
+                })}
+              >
+                <FiUser className="w-auto h-8" />
+              </button>
+            </Link>
+          }
         </div>
       </nav>
       {/* menu shadow */}
