@@ -110,7 +110,7 @@ const DashboardStruct = ({ children }) => {
           </MenuTab>
         </div>
       </nav>
-      <section className="h-auto mt-28 mx-8 lg:mx-auto relative z-[8] lg:mt-24 lg:ml-[20%] lg:mr-[2.5%]">
+      <section className="h-auto mt-28 mb-12 mx-8 lg:mx-auto relative z-[8] lg:mt-24 lg:ml-[20%] lg:mr-[2.5%]">
         <section className="max-w-5xl mx-auto">{children}</section>
       </section>
     </main>

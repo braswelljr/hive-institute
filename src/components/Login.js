@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import clsx from 'clsx'
-import Link from 'next/link'
+// import Link from 'next/link'
 import { BiError } from 'react-icons/bi'
+import { signIn } from 'src/workers/auth.internal'
+import { AppContext } from '../context/AppContext'
 
 const Login = ({ setAuth }) => {
   const [loginEmail, setLoginEmail] = useState({ value: '', valid: true })
@@ -9,9 +11,38 @@ const Login = ({ setAuth }) => {
     value: '',
     valid: true
   })
+  const { setToken } = useContext(AppContext)
+
+  const handleSubmit = e => {
+    // prevent default behavior
+    e.preventDefault()
+
+    if (
+      loginEmail.value.length > 0 &&
+      loginEmail.valid === true &&
+      loginPassword.value.length > 0 &&
+      loginPassword.valid === true
+    ) {
+      // signIn value and set token
+      signIn(loginEmail.value, loginPassword.value).then(response =>
+        setToken(response)
+      )
+    } else {
+      if (loginPassword.value.length >= 0 || loginPassword.valid === false) {
+        setLoginPassword({ ...loginPassword, valid: false })
+      }
+      if (loginEmail.value.length <= 0 || loginEmail.valid === false) {
+        setLoginEmail({ ...loginEmail, valid: false })
+      }
+    }
+  }
 
   return (
-    <form method="POST" className="mt-12 space-y-5 text-gray-700">
+    <form
+      method="POST"
+      className="mt-12 space-y-5 text-gray-700"
+      onSubmit={handleSubmit}
+    >
       <div className="text-lg rounded-md">
         <label htmlFor="email" className="">
           Email
@@ -69,13 +100,13 @@ const Login = ({ setAuth }) => {
           onFocus={() =>
             setLoginPassword({
               ...loginPassword,
-              valid: loginPassword.value.length >= 8 ? true : false
+              valid: loginPassword.value.length > 0 ? true : false
             })
           }
           onChange={e => {
             setLoginPassword({
               value: e.target.value,
-              valid: loginPassword.value.length >= 8 ? true : false
+              valid: loginPassword.value.length > 0 ? true : false
             })
           }}
           className={clsx(
@@ -90,14 +121,14 @@ const Login = ({ setAuth }) => {
           </span>
         )}
       </div>
-      <Link href="/verify">
-        <button
-          type="submit"
-          className="w-full px-3 py-2 text-lg font-semibold text-white rounded bg-primary-semi hover:bg-primary-moderate focus:outline-none"
-        >
-          Sign In
-        </button>
-      </Link>
+      {/* <Link href="/verify"> */}
+      <button
+        type="submit"
+        className="w-full px-3 py-2 text-lg font-semibold text-white rounded bg-primary-semi hover:bg-primary-moderate focus:outline-none"
+      >
+        Sign In
+      </button>
+      {/* </Link> */}
       <p className="text-center">
         Don't have an account,{' '}
         <button

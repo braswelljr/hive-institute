@@ -1,0 +1,7 @@
+[
+  {
+    "source": "/dashboard",
+    "destination": "/dashboard/courses",
+    "permanent": true
+  }
+]

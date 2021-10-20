@@ -21,13 +21,12 @@ const Index = () => {
               alt="logo"
               className="w-auto mx-auto h-36"
             />
-            hello
           </div>
         </div>
       </div>
       <div
         className={clsx('w-full min-h-screen lg:w-1/2', {
-          'lg:flex items-center justify-center': auth == 'login'
+          'lg:flex items-center justify-center': auth === 'login'
         })}
       >
         {/* Header */}
@@ -39,20 +38,13 @@ const Index = () => {
                 alt="logo"
                 className="w-auto h-20 md:h-20"
               />
-              {/* <div
-                className="font-black xs:text-xl md:text3xl w-72 lg:text-5xl"
-                style={{ color: '#454e4d' }}
-              >
-                <div className="">Hive Institute of</div>{' '}
-                <div className="">Technology</div>
-              </div> */}
             </div>
             <h1 className="text-3xl font-extrabold text-center capitalize text-primary-semi">
-              {auth == 'login' ? 'Sign in' : 'Sign Up'}
+              {auth === 'login' ? 'Sign in' : 'Sign Up'}
             </h1>
           </div>
 
-          {auth == 'login' ? (
+          {auth === 'login' ? (
             <Login setAuth={setAuth} />
           ) : (
             <Signup setAuth={setAuth} />
