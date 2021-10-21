@@ -4,14 +4,18 @@ import clsx from 'clsx'
 import { BiError } from 'react-icons/bi'
 import { signIn } from 'src/workers/auth.internal'
 import { AppContext } from '../context/AppContext'
+import { useRouter } from 'next/router'
+import { Alert } from '@reach/alert'
 
 const Login = ({ setAuth }) => {
+  const router = useRouter()
   const [loginEmail, setLoginEmail] = useState({ value: '', valid: true })
   const [loginPassword, setLoginPassword] = useState({
     value: '',
     valid: true
   })
-  const { setToken } = useContext(AppContext)
+  const { appRef, token, setToken } = useContext(AppContext)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   const handleSubmit = e => {
     // prevent default behavior
@@ -24,11 +28,22 @@ const Login = ({ setAuth }) => {
       loginPassword.valid === true
     ) {
       // signIn value and set token
-      signIn(loginEmail.value, loginPassword.value).then(response =>
-        setToken(response)
-      )
+      signIn(loginEmail.value, loginPassword.value).then(response => {
+        if (response.error) {
+          setErrorMessage(response.error)
+        } else {
+          setToken(response)
+          // set storage value with Token
+          console.log(token)
+          if (typeof Storage !== 'undefined') {
+            window.localStorage.setItem(appRef, JSON.stringify(token))
+          }
+          // route user to dashboard based on token
+          router.push('/dashboard/courses')
+        }
+      })
     } else {
-      if (loginPassword.value.length >= 0 || loginPassword.valid === false) {
+      if (loginPassword.value.length <= 0 || loginPassword.valid === false) {
         setLoginPassword({ ...loginPassword, valid: false })
       }
       if (loginEmail.value.length <= 0 || loginEmail.valid === false) {

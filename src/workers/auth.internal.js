@@ -5,7 +5,6 @@ const url = 'https://hit-api-xqpilz5vla-wm.a.run.app/api/v1'
 export const signIn = async (email, password) => {
   // hash email and password together
   const hash = window.btoa(email + ':' + password)
-  console.log(hash)
 
   // set http headers and return the results
   try {
@@ -22,8 +21,8 @@ export const signIn = async (email, password) => {
         }
       })
     ).json()
-  } catch (error) {
-    console.log(error)
+  } catch (err) {
+    console.log(err)
   }
 }
 

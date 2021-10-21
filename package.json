@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier */**/*.{css,jsx,tsx,ts,js,json} --write",
+    "format": "prettier */**/*.{css,jsx,tsx,ts,js} --write",
     "prepare": "husky install"
   },
   "dependencies": {

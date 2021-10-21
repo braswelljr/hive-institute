@@ -2,7 +2,6 @@ const path = require('path')
 const withPlugins = require('next-compose-plugins')
 const withPWA = require('next-pwa')
 const runtimeCaching = require('next-pwa/cache')
-const { redirect } = require('next/dist/server/api-utils')
 
 module.exports = withPlugins(
   [
