@@ -25,7 +25,7 @@ const Index = () => {
         </div>
       </div>
       <div
-        className={clsx('w-full min-h-screen lg:w-1/2', {
+        className={clsx('w-full relative min-h-screen lg:w-1/2', {
           'lg:flex items-center justify-center': auth === 'login'
         })}
       >
