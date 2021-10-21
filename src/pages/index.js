@@ -1,15 +1,10 @@
 import { useState } from 'react'
 import clsx from 'clsx'
-import Link from 'next/link'
-import { BiError } from 'react-icons/bi'
+import Signup from '@/components/Signup'
+import Login from '@/components/Login'
 
 const Index = () => {
   const [auth, setAuth] = useState('login')
-  const [loginEmail, setLoginEmail] = useState({ value: '', valid: true })
-  const [loginPassword, setLoginPassword] = useState({
-    value: '',
-    valid: true
-  })
 
   return (
     <main className={clsx('w-full h-screen flex')}>
@@ -31,7 +26,7 @@ const Index = () => {
       </div>
       <div
         className={clsx('w-full min-h-screen lg:w-1/2', {
-          'lg:flex items-center justify-center': auth == 'login'
+          'lg:flex items-center justify-center': auth === 'login'
         })}
       >
         {/* Header */}
@@ -43,194 +38,16 @@ const Index = () => {
                 alt="logo"
                 className="w-auto h-20 md:h-20"
               />
-              {/* <div
-                className="font-black xs:text-xl md:text3xl w-72 lg:text-5xl"
-                style={{ color: '#454e4d' }}
-              >
-                <div className="">Hive Institute of</div>{' '}
-                <div className="">Technology</div>
-              </div> */}
             </div>
             <h1 className="text-3xl font-extrabold text-center capitalize text-primary-semi">
-              {auth == 'login' ? 'Sign in' : 'Sign Up'}
+              {auth === 'login' ? 'Sign in' : 'Sign Up'}
             </h1>
           </div>
 
-          {auth == 'login' ? (
-            // Sign in
-            <form method="POST" className="mt-12 space-y-5 text-gray-700">
-              <div className="text-lg rounded-md">
-                <label htmlFor="email" className="">
-                  Email
-                </label>
-                <input
-                  type="text"
-                  name="email"
-                  id="email"
-                  placeholder="Email"
-                  autoComplete="off"
-                  value={loginEmail.value}
-                  onFocus={() => setLoginEmail({ ...loginEmail, valid: false })}
-                  onChange={e => {
-                    setLoginEmail({
-                      value: e.target.value,
-                      valid: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
-                        e.target.value.trim()
-                      )
-                        ? true
-                        : false
-                    })
-                  }}
-                  className={clsx(
-                    'w-full px-3 py-2 bg-yellow-100 border rounded focus:outline-none',
-                    { 'border-red-500': !loginEmail.valid }
-                  )}
-                />
-                {!loginEmail.valid && (
-                  <span className="inline-flex items-center text-xs text-red-500">
-                    <BiError className="inline w-auto h-4 mr-2" />
-                    <span>Invalid Email</span>
-                  </span>
-                )}
-              </div>
-              <div className="text-lg rounded-md">
-                <label htmlFor="password" className="">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  name="email"
-                  id="password"
-                  placeholder="Password"
-                  autoComplete="off"
-                  value={loginPassword.value}
-                  onFocus={() =>
-                    setLoginPassword({ ...loginPassword, valid: false })
-                  }
-                  onChange={e => {
-                    setLoginPassword({
-                      value: e.target.value,
-                      valid: loginPassword.value.length >= 8 ? true : false
-                    })
-                  }}
-                  className={clsx(
-                    'w-full px-3 py-2 bg-yellow-100 border rounded focus:outline-none',
-                    { 'border-red-500': !loginPassword.valid }
-                  )}
-                />
-                {!loginPassword.valid && (
-                  <span className="items-center text-xs text-red-500 nline-flex">
-                    <BiError className="inline w-auto h-4 mr-2" />
-                    <span>Invalid Password</span>
-                  </span>
-                )}
-              </div>
-              <Link href="/verify">
-                <button
-                  type="submit"
-                  className="w-full px-3 py-2 text-lg font-semibold text-white rounded bg-primary-semi hover:bg-primary-moderate focus:outline-none"
-                >
-                  Sign In
-                </button>
-              </Link>
-              <p className="text-center">
-                Don't have an account,{' '}
-                <button
-                  type='="button'
-                  className="cursor-pointer text-primary-deep"
-                  onClick={() => setAuth('signup')}
-                >
-                  Sign Up
-                </button>
-              </p>
-            </form>
+          {auth === 'login' ? (
+            <Login setAuth={setAuth} />
           ) : (
-            // Sign up
-            <form method="POST" className="mt-12 space-y-5 text-gray-700">
-              <div className="rounded-md text-md">
-                <label htmlFor="name" className="">
-                  Fullname
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  id="name"
-                  placeholder="Fullname"
-                  autoComplete="off"
-                  className="w-full px-3 py-2 bg-yellow-100 border rounded focus:outline-none"
-                />
-              </div>
-              <div className="rounded-md text-md">
-                <label htmlFor="email" className="">
-                  Email
-                </label>
-                <input
-                  type="text"
-                  name="email"
-                  id="email"
-                  placeholder="Email"
-                  autoComplete="off"
-                  className="w-full px-3 py-2 bg-yellow-100 border rounded focus:outline-none"
-                />
-              </div>
-              <div className="rounded-md text-md">
-                <label htmlFor="phone" className="" aria-label="phone">
-                  Phone
-                </label>
-                <input
-                  type="tel"
-                  name="phone"
-                  id="phone"
-                  placeholder=""
-                  autoComplete="off"
-                  aria-placeholder="233-500-181-106"
-                  className="w-full px-3 py-2 bg-yellow-100 border rounded focus:outline-none"
-                />
-              </div>
-              <div className="rounded-md text-md">
-                <label htmlFor="password" className="">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  name="email"
-                  id="password"
-                  placeholder="Password"
-                  autoComplete="off"
-                  className="w-full px-3 py-2 bg-yellow-100 border rounded focus:outline-none"
-                />
-              </div>
-              <div className="rounded-md text-md">
-                <label htmlFor="confirm-password" className="">
-                  Confirm Password
-                </label>
-                <input
-                  type="password"
-                  name="email"
-                  id="confirm-password"
-                  placeholder="Confirm Password"
-                  autoComplete="off"
-                  className="w-full px-3 py-2 bg-yellow-100 border rounded focus:outline-none"
-                />
-              </div>
-              <Link href="/verify">
-                <button
-                  type="submit"
-                  className="w-full px-3 py-2 text-lg font-semibold text-white rounded bg-primary-semi hover:bg-primary-moderate focus:outline-none"
-                >
-                  Sign Up
-                </button>
-              </Link>
-              <p className="text-center">
-                Already have an account,{' '}
-                <span
-                  className="cursor-pointer text-primary-semi"
-                  onClick={() => setAuth('login')}
-                >
-                  Sign In
-                </span>
-              </p>
-            </form>
+            <Signup setAuth={setAuth} />
           )}
         </div>
       </div>

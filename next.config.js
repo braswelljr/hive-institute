@@ -45,6 +45,9 @@ module.exports = withPlugins(
       config.resolve.modules.push(path.resolve(`./`))
 
       return config
+    },
+    async redirects() {
+      return require('./redirects.json')
     }
   }
 )

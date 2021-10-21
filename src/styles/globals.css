@@ -4,3 +4,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.PhoneInput {
+  @apply text-sm;
+}
+.PhoneInputCountry {
+  @apply px-1;
+}
+.PhoneInputInput {
+  @apply w-full px-3 py-2 bg-yellow-100 border rounded focus:outline-none;
+}

@@ -12,6 +12,7 @@
       "@/hooks/*": ["src/hooks/*"],
       "@/utils/*": ["src/utils/*"],
       "@/store/*": ["src/store/*"],
+      "@/internals/*": ["src/workers/*"],
       "@/data/*": ["src/data/*"]
     }
   }
