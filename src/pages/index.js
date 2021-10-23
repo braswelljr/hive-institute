@@ -1,14 +1,18 @@
 import { useState } from 'react'
 import clsx from 'clsx'
-import Signup from '@/components/Signup'
+// import Signup from '@/components/Signup'
 import Login from '@/components/Login'
 
 const Index = () => {
   const [auth, setAuth] = useState('login')
 
   return (
-    <main className={clsx('w-full h-screen flex')}>
-      <div className="relative hidden w-1/2 h-full lg:block">
+    <main
+      className={clsx(
+        'w-full min-h-screen lg:h-screen flex flex-col lg:flex-row'
+      )}
+    >
+      <div className="relative h-[50vh] lg:w-1/2 w-full lg:h-full">
         <img
           src={require('@/img/learn3.png')}
           alt=""
@@ -19,36 +23,29 @@ const Index = () => {
             <img
               src={require('@/img/header2.png')}
               alt="logo"
-              className="w-auto mx-auto h-36"
+              className="w-auto h-16 mx-auto sm:h-24 md:h-36"
             />
           </div>
         </div>
       </div>
       <div
-        className={clsx('w-full min-h-screen lg:w-1/2', {
-          'lg:flex items-center justify-center': auth === 'login'
-        })}
+        className={clsx(
+          'w-full relative lg:min-h-screen lg:w-1/2 lg:flex lg:items-center'
+        )}
       >
-        {/* Header */}
-        <div className="max-w-2xl px-8 mx-auto md:px-16">
-          <div className="w-full pt-12 space-y-6 lg:space-y-0">
-            <div className="flex items-center justify-center w-auto mx-auto space-x-5 lg:hidden">
-              <img
-                src={require('@/img/logo2.png')}
-                alt="logo"
-                className="w-auto h-20 md:h-20"
-              />
-            </div>
+        <div className="max-w-2xl px-8 py-12 mx-auto space-y-6 lg:space-y-0 md:px-16">
+          {/* Header */}
+          <div className="w-full">
             <h1 className="text-3xl font-extrabold text-center capitalize text-primary-semi">
               {auth === 'login' ? 'Sign in' : 'Sign Up'}
             </h1>
           </div>
 
-          {auth === 'login' ? (
-            <Login setAuth={setAuth} />
-          ) : (
+          {/* {auth === 'signup' ? (
             <Signup setAuth={setAuth} />
-          )}
+          ) : ( */}
+          <Login setAuth={setAuth} />
+          {/* )} */}
         </div>
       </div>
     </main>

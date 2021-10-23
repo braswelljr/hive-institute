@@ -102,15 +102,6 @@ const Signup = ({ setAuth }) => {
         <label htmlFor="phone" className="" aria-label="phone">
           Phone
         </label>
-        {/* <input
-          type="tel"
-          name="phone"
-          id="phone"
-          placeholder=""
-          autoComplete="off"
-          aria-placeholder="233-500-181-106"
-          className="w-full px-3 py-2 bg-yellow-100 border rounded focus:outline-none"
-        /> */}
         <PhoneInput
           flags={flags}
           international
