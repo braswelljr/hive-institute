@@ -1,5 +1,5 @@
 // api url
-const url = 'https://hit-api-xqpilz5vla-wm.a.run.app/api/v1'
+export const url = 'https://hit-api-xqpilz5vla-wm.a.run.app/api/v1'
 
 // sign in function
 export const signIn = async (email, password) => {

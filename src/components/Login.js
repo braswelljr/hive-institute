@@ -1,28 +1,35 @@
-import { useState, useContext, useEffect, Fragment } from 'react'
+import { useState, useEffect, Fragment } from 'react'
 import clsx from 'clsx'
 import { BiError } from 'react-icons/bi'
 import { signIn } from 'src/workers/auth.internal'
-import { AppContext } from '../context/AppContext'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
+import useStore from '@/store/index'
+import shallow from 'zustand/shallow'
+import ProcessSVG from '@/components/ProcessSVG'
 
-const Login = ({ setAuth }) => {
+const Login = () => {
   const router = useRouter()
   const [loginEmail, setLoginEmail] = useState({ value: '', valid: true })
   const [loginPassword, setLoginPassword] = useState({
     value: '',
     valid: true
   })
-  const { appRef, token, setToken } = useContext(AppContext)
   const [errorMessage, setErrorMessage] = useState(null)
   const [showProcess, setShowProcess] = useState(false)
+  // store containers
+  const appRef = useStore(state => state.appRef)
+  const [token, setToken] = useStore(
+    state => [state.token, state.setToken],
+    shallow
+  )
 
   // remove notification alert
   useEffect(() => {
-    window.setTimeout(() => setErrorMessage(null), 15000)
+    window.setTimeout(() => setErrorMessage(null), 10000)
   }, [errorMessage])
 
-  const handleSubmit = e => {
+  function handleSubmit(e) {
     // prevent default behavior
     e.preventDefault()
 
@@ -40,14 +47,12 @@ const Login = ({ setAuth }) => {
           if (response.error) {
             setErrorMessage(response.error)
           } else {
-            setToken(response)
+            setToken(response.token)
+            // handlestorage
             // set storage value with Token
-            console.log(token)
-            if (typeof Storage !== 'undefined') {
-              window.localStorage.setItem(appRef, JSON.stringify(token))
-            }
+            window.localStorage.setItem(appRef, JSON.stringify(response))
             // route user to dashboard based on token
-            router.push('/dashboard/courses')
+            router.push({ pathname: '/dashboard/courses' })
           }
           // animate process stop
           setShowProcess(false)
@@ -60,11 +65,11 @@ const Login = ({ setAuth }) => {
           setShowProcess(false)
         })
     } else {
-      if (loginPassword.value.length <= 0 || loginPassword.valid === false) {
-        setLoginPassword({ ...loginPassword, valid: false })
-      }
       if (loginEmail.value.length <= 0 || loginEmail.valid === false) {
         setLoginEmail({ ...loginEmail, valid: false })
+      }
+      if (loginPassword.value.length <= 0 || loginPassword.valid === false) {
+        setLoginPassword({ ...loginPassword, valid: false })
       }
     }
   }
@@ -74,15 +79,15 @@ const Login = ({ setAuth }) => {
       {errorMessage !== null && (
         <motion.div
           variants={{
-            hidden: { opacity: 0, y: 200 },
+            hidden: { opacity: 0, y: 50 },
             show: {
               opacity: 1,
               y: 0,
               transition: {
                 // type: 'spring',
-                duration: 0.5
+                duration: 0.5,
                 // stiffness: 260,
-                // damping: 20
+                damping: 20
               }
             }
           }}
@@ -95,8 +100,9 @@ const Login = ({ setAuth }) => {
       )}
       <form
         method="POST"
-        className="mt-12 space-y-5 text-gray-700"
+        className="block w-full mt-16 space-y-5 text-gray-700"
         onSubmit={handleSubmit}
+        id="login-form"
       >
         <div className="text-lg rounded-md">
           <label htmlFor="email" className="">
@@ -121,7 +127,7 @@ const Login = ({ setAuth }) => {
             }
             onChange={e => {
               setLoginEmail({
-                value: e.target.value,
+                value: e.target.value.trim(),
                 valid: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
                   e.target.value.trim()
                 )
@@ -135,10 +141,10 @@ const Login = ({ setAuth }) => {
             )}
           />
           {!loginEmail.valid && (
-            <span className="inline-flex items-center text-xs text-red-500">
+            <div className="flex items-center w-full text-xs text-red-500">
               <BiError className="inline w-auto h-4 mr-2" />
               <span>Invalid Email</span>
-            </span>
+            </div>
           )}
         </div>
         <div className="text-lg rounded-md">
@@ -155,13 +161,13 @@ const Login = ({ setAuth }) => {
             onFocus={() =>
               setLoginPassword({
                 ...loginPassword,
-                valid: loginPassword.value.length > 0 ? true : false
+                valid: loginPassword.value.trim().length > 5 ? true : false
               })
             }
             onChange={e => {
               setLoginPassword({
-                value: e.target.value,
-                valid: loginPassword.value.length > 0 ? true : false
+                value: e.target.value.trim(),
+                valid: e.target.value.trim().length > 5 ? true : false
               })
             }}
             className={clsx(
@@ -170,56 +176,39 @@ const Login = ({ setAuth }) => {
             )}
           />
           {!loginPassword.valid && (
-            <span className="items-center text-xs text-red-500 nline-flex">
+            <div className="flex items-center w-full text-xs text-red-500">
               <BiError className="inline w-auto h-4 mr-2" />
               <span>Invalid Password</span>
-            </span>
+            </div>
           )}
         </div>
         {/* <Link href="/verify"> */}
         <button
           type="submit"
-          className="flex items-center justify-center w-full px-3 py-2 text-lg font-semibold text-white rounded bg-primary-semi hover:bg-primary-moderate focus:outline-none"
+          className="flex items-center justify-center w-full px-3 py-2 text-lg font-semibold text-white rounded bg-primary-light focus:outline-none"
         >
           {showProcess ? (
-            <svg
-              className="w-5 h-5 text-white animate-spin"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                className="opacity-25"
-                cx={12}
-                cy={12}
-                r={10}
-                stroke="currentColor"
-                strokeWidth={4}
-              />
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              />
-            </svg>
+            <ProcessSVG className="w-5 h-5 text-white" />
           ) : (
             <span className="">Sign In</span>
           )}
         </button>
         {/* </Link> */}
-        <p className="text-center">
+        {/* <p className="text-center">
           Don't have an account,{' '}
           <button
             type='="button'
-            className="cursor-pointer text-primary-deep"
+            className="cursor-pointer text-primary-light"
             onClick={() => setAuth('signup')}
           >
             Sign Up
           </button>
-        </p>
+        </p> */}
       </form>
     </Fragment>
   )
 }
 
 export default Login
+
+// /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/ -> min 8 letter password, with at least a symbol, upper and lower case letters and a number

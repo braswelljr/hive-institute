@@ -4,7 +4,7 @@ import { FiUser } from 'react-icons/fi'
 import clsx from 'clsx'
 import Link from 'next/link'
 import { HiCreditCard, HiCalendar, HiAcademicCap } from 'react-icons/hi'
-import router, { useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 
 const MenuTab = forwardRef(({ children, href, setMenu }, ref) => {
   const router = useRouter()
@@ -27,7 +27,9 @@ const MenuTab = forwardRef(({ children, href, setMenu }, ref) => {
 })
 
 const DashboardStruct = ({ children }) => {
+  const router = useRouter()
   const [menu, setMenu] = useState(true)
+  // store containers
 
   return (
     <main className="">
