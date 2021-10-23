@@ -10,7 +10,7 @@ const useStore = create(
     payload: null,
     setPayload: e => set({ payload: e }),
     courses: null,
-    setCourses: e => set({ payload: e })
+    setCourses: e => set({ courses: e })
   }))
 )
 

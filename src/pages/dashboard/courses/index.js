@@ -37,6 +37,11 @@ const Dashboard = () => {
     }
   }, [])
 
+  // check and set process
+  useEffect(() => {
+    if (Array.isArray(courses)) setShowProcess(false)
+  }, [courses])
+
   if (payload !== null && token !== null) {
     getCourses(payload, token)
       .then(response => {
@@ -44,7 +49,7 @@ const Dashboard = () => {
           setErrorMessage(response.error)
           console.log(response.error)
         } else {
-          console.log(response)
+          setCourses(response)
           setShowProcess(false)
         }
       })
@@ -183,28 +188,30 @@ const Dashboard = () => {
               initial="hidden"
               animate="show"
             >
-              {/* {unenrolledCourses.map(course => (
-                <motion.div key={course.id} variants={itemVariant}>
-                  <DisClosure
-                    key={course.id}
-                    title={course.course}
-                    description={course.description}
-                    cta={
-                      <div className={clsx('flex justify-end mt-3')}>
-                        <button
-                          type="button"
-                          className={clsx(
-                            'px-4 py-2 bg-secondary-light rounded-md font-bold'
-                          )}
-                        >
-                          Enroll
-                        </button>
-                      </div>
-                    }
-                  />
-                </motion.div>
-              ))} */}
-              All Courses
+              {Array.isArray(courses)
+                ? courses.length > 0 &&
+                  courses.map(course => (
+                    <motion.div key={course.course_id} variants={itemVariant}>
+                      <DisClosure
+                        key={course.id}
+                        title={course.name}
+                        description={course.overview}
+                        cta={
+                          <div className={clsx('flex justify-end mt-3')}>
+                            <button
+                              type="button"
+                              className={clsx(
+                                'px-4 py-2 bg-secondary-light rounded-md font-bold'
+                              )}
+                            >
+                              View
+                            </button>
+                          </div>
+                        }
+                      />
+                    </motion.div>
+                  ))
+                : undefined}
             </motion.div>
           )}
         </AnimateSharedLayout>

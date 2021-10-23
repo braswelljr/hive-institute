@@ -6,7 +6,7 @@ const DisClosure = ({ title, description, cta, ctaClassName }) => {
   return (
     <Disclosure>
       {({ open }) => (
-        <>
+        <div className="bg-yellow-50">
           <Disclosure.Button className="relative flex justify-between w-full px-4 py-2 text-sm font-medium text-left rounded-lg text-secondary-deep bg-secondary-light focus:outline-none ">
             <span>{title}</span>
             <HiChevronDown
@@ -18,11 +18,11 @@ const DisClosure = ({ title, description, cta, ctaClassName }) => {
               )}
             />
           </Disclosure.Button>
-          <Disclosure.Panel className="relative px-4 pt-4 pb-2 text-sm transition-all duration-200 rounded-lg shadow-sm bg-gray-50 text-secondary-deep">
+          <Disclosure.Panel className="relative px-4 pt-4 pb-2 text-sm transition-all duration-200 rounded-lg shadow-sm text-secondary-deep">
             <p className="first-letter:text-3xl">{description}</p>
             <div className={clsx(ctaClassName)}>{cta}</div>
           </Disclosure.Panel>
-        </>
+        </div>
       )}
     </Disclosure>
   )
