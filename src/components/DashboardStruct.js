@@ -7,13 +7,17 @@ import Link from 'next/link'
 import { HiCreditCard, HiCalendar, HiAcademicCap } from 'react-icons/hi'
 import { useRouter } from 'next/router'
 import useStore from '@/store/index'
+import shallow from 'zustand/shallow'
 import jwt from 'jsonwebtoken'
 
 const MenuTab = forwardRef(({ children, href, setMenu }, ref) => {
   const router = useRouter()
   const appRef = useStore(state => state.appRef)
   const setToken = useStore(state => state.setToken)
-  const setPayload = useStore(state => state.setPayload)
+  const [payload, setPayload] = useStore(
+    state => [state.payload, state.setPayload],
+    shallow
+  )
 
   // set payload
   useEffect(() => {
@@ -25,7 +29,7 @@ const MenuTab = forwardRef(({ children, href, setMenu }, ref) => {
       setToken(tk)
       setPayload(jwt.decode(tk))
     }
-  }, [router.pathname])
+  }, [])
 
   return (
     <Link href={encodeURI(href)} ref={ref}>
