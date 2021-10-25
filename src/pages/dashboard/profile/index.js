@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import clsx from 'clsx'
-import { getProfile } from '@/internals/profile.internal'
+import { getProfile } from '@/internals/student.internal'
 import useStore from '@/store/index'
 import shallow from 'zustand/shallow'
 import ProcessSVG from '@/components/ProcessSVG'
