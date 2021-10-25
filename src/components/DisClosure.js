@@ -7,7 +7,10 @@ const DisClosure = ({ title, description, cta, ctaClassName }) => {
     <Disclosure>
       {({ open }) => (
         <div className="bg-yellow-50">
-          <Disclosure.Button className="relative flex justify-between w-full px-4 py-2 text-sm font-medium text-left rounded-lg text-secondary-deep bg-secondary-light focus:outline-none ">
+          <Disclosure.Button
+            tabIndex={-1}
+            className="relative flex justify-between w-full px-4 py-2 text-sm font-medium text-left rounded-lg text-secondary-deep bg-secondary-light focus:outline-none "
+          >
             <span>{title}</span>
             <HiChevronDown
               className={clsx(

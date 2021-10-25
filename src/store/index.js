@@ -4,8 +4,12 @@ import { devtools } from 'zustand/middleware'
 const useStore = create(
   devtools(set => ({
     appRef: 'ref/hive-institute',
+    // user token for authentication
     token: null,
     setToken: e => set({ token: e === undefined ? null : e }),
+    // user profile
+    profile: null,
+    setProfile: e => set({ profile: e }),
     // user payload
     payload: null,
     setPayload: e => set({ payload: e }),

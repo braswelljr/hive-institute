@@ -1,11 +1,11 @@
 import { url } from './auth.internal'
 
-export const getCourses = async (payload, token) => {
+export const getProfile = async (payload, token) => {
   token = typeof token === 'object' ? token.token : token
   payload = typeof payload === 'object' ? payload.sub : payload
   try {
     return await (
-      await fetch(`${url}/students/${payload}/courses`, {
+      await fetch(`${url}/students/${payload}`, {
         method: 'GET',
         withCredentials: true,
         mode: 'cors',

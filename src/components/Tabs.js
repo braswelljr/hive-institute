@@ -27,14 +27,14 @@ export default function Tabs({
           gridTemplateColumns:
             layout == 'column'
               ? `repeat(${
-                  Array.isArray(tabs) ? tabs.length : Object.keys(tabs).length
-                }, minmax(0, 1fr))`
+                Array.isArray(tabs) ? tabs.length : Object.keys(tabs).length
+              }, minmax(0, 1fr))`
               : ``,
           gridTemplateRows:
             layout != 'column'
               ? `repeat(${
-                  Array.isArray(tabs) ? tabs.length : Object.keys(tabs).length
-                }, minmax(0, 1fr))`
+                Array.isArray(tabs) ? tabs.length : Object.keys(tabs).length
+              }, minmax(0, 1fr))`
               : ``
         }}
       >
@@ -71,6 +71,7 @@ function Indicator({
       <button
         type="button"
         onClick={onClick}
+        tabIndex={-1}
         className={clsx(
           'flex w-full relative z-10 leading-6 focus:outline-none transition-colors duration-300',
           tabClassName

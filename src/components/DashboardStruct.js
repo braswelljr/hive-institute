@@ -1,4 +1,4 @@
-import { useState, forwardRef, Fragment } from 'react'
+import { useState, forwardRef, Fragment, useEffect } from 'react'
 import { HiChatAlt2, HiPlus } from 'react-icons/hi'
 import { FiUser } from 'react-icons/fi'
 import Head from 'next/head'
@@ -6,9 +6,26 @@ import clsx from 'clsx'
 import Link from 'next/link'
 import { HiCreditCard, HiCalendar, HiAcademicCap } from 'react-icons/hi'
 import { useRouter } from 'next/router'
+import useStore from '@/store/index'
+import jwt from 'jsonwebtoken'
 
 const MenuTab = forwardRef(({ children, href, setMenu }, ref) => {
   const router = useRouter()
+  const appRef = useStore(state => state.appRef)
+  const setToken = useStore(state => state.setToken)
+  const setPayload = useStore(state => state.setPayload)
+
+  // set payload
+  useEffect(() => {
+    let tk = JSON.parse(window.localStorage.getItem(appRef))
+    if (tk === undefined || tk === null) {
+      router.push({ pathname: '/' })
+    } else {
+      tk = typeof tk === 'object' ? tk.token : tk
+      setToken(tk)
+      setPayload(jwt.decode(tk))
+    }
+  }, [router.pathname])
 
   return (
     <Link href={encodeURI(href)} ref={ref}>
@@ -102,6 +119,7 @@ const DashboardStruct = ({ children }) => {
         {/* menu shadow */}
         <div
           onClick={() => setMenu(!menu)}
+          tabIndex={-1}
           className={clsx(
             'fixed inset-0 z-[15] cursor-pointer bg-secondary-light lg:hidden bg-opacity-30',
             { hidden: menu }
@@ -111,6 +129,7 @@ const DashboardStruct = ({ children }) => {
         <button
           type="button"
           aria-modal
+          tabIndex={-1}
           onClick={() => setMenu(!menu)}
           className={clsx(
             'bg-secondary-light p-2 z-[16] lg:hidden transition-all transform transform-gpu text-secondary-deep rounded-full fixed sm:bottom-10 bottom-5 right-5 sm:right-10',
