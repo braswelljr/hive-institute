@@ -7,6 +7,7 @@ import { motion } from 'framer-motion'
 import useStore from '@/store/index'
 import shallow from 'zustand/shallow'
 import ProcessSVG from '@/components/ProcessSVG'
+import jwt from 'jsonwebtoken'
 
 const Login = () => {
   const router = useRouter()
@@ -23,6 +24,7 @@ const Login = () => {
     state => [state.token, state.setToken],
     shallow
   )
+  const setPayload = useStore(state => state.setPayload)
 
   // remove notification alert
   useEffect(() => {
@@ -51,6 +53,8 @@ const Login = () => {
             // handlestorage
             // set storage value with Token
             window.localStorage.setItem(appRef, JSON.stringify(response))
+            // set payload value
+            setPayload(jwt.decode(response.token))
             // route user to dashboard based on token
             router.push({ pathname: '/dashboard/courses' })
           }
