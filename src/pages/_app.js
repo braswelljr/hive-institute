@@ -29,12 +29,14 @@ const App = ({ Component, pageProps }) => {
   useIsomorphicLayoutEffect(() => {
     const loadStorage = () => {
       // set storage item if not available
-      let tok = localStorage.getItem(appRef)
-      if (tok) {
-        tok = JSON.parse(tok)
-        tok = tok === null || tok === undefined ? tok : tok.token
-        setToken(tok)
-        setPayload(jwt.decode(tok))
+      if (typeof Storage !== 'undefined') {
+        let tok = localStorage.getItem(appRef)
+        if (tok) {
+          tok = JSON.parse(tok)
+          tok = tok === null || tok === undefined ? tok : tok.token
+          setToken(tok)
+          setPayload(jwt.decode(tok))
+        }
       }
     }
 
