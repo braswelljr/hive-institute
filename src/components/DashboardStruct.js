@@ -1,4 +1,4 @@
-import { useState, forwardRef, Fragment, useEffect } from 'react'
+import { useState, forwardRef, Fragment } from 'react'
 import { HiChatAlt2, HiPlus } from 'react-icons/hi'
 import { FiUser } from 'react-icons/fi'
 import Head from 'next/head'
@@ -6,30 +6,12 @@ import clsx from 'clsx'
 import Link from 'next/link'
 import { HiCreditCard, HiCalendar, HiAcademicCap } from 'react-icons/hi'
 import { useRouter } from 'next/router'
-import useStore from '@/store/index'
 import shallow from 'zustand/shallow'
-import jwt from 'jsonwebtoken'
+import useStore from '@/store/index'
+import { url } from 'src/gloabals'
 
 const MenuTab = forwardRef(({ children, href, setMenu }, ref) => {
   const router = useRouter()
-  const appRef = useStore(state => state.appRef)
-  const setToken = useStore(state => state.setToken)
-  const [payload, setPayload] = useStore(
-    state => [state.payload, state.setPayload],
-    shallow
-  )
-
-  // set payload
-  useEffect(() => {
-    let tk = JSON.parse(window.localStorage.getItem(appRef))
-    if (tk === undefined || tk === null) {
-      router.push({ pathname: '/' })
-    } else {
-      tk = typeof tk === 'object' ? tk.token : tk
-      setToken(tk)
-      setPayload(jwt.decode(tk))
-    }
-  }, [])
 
   return (
     <Link href={encodeURI(href)} ref={ref}>
@@ -51,6 +33,56 @@ const MenuTab = forwardRef(({ children, href, setMenu }, ref) => {
 const DashboardStruct = ({ children }) => {
   const router = useRouter()
   const [menu, setMenu] = useState(true)
+  const token = useStore(state => state.token)
+  const payload = useStore(state => state.payload)
+  const [profile, setProfile] = useStore(
+    state => [state.profile, state.setProfile],
+    shallow
+  )
+  const [courses, setCourses] = useStore(
+    state => [state.courses, state.setCourses],
+    shallow
+  )
+
+  const fetchCourses = () => {
+    fetch(`${url}/students/${payload.sub}/courses`, {
+      method: 'GET',
+      withCredentials: true,
+      mode: 'cors',
+      'Access-Control-Allow-Origin': '*',
+      credentials: 'same-origin',
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(response => setCourses(response))
+      .catch(error => console.error(error))
+  }
+
+  const fetchProfile = () => {
+    fetch(`${url}/students/${payload.sub}`, {
+      method: 'GET',
+      withCredentials: true,
+      mode: 'cors',
+      'Access-Control-Allow-Origin': '*',
+      credentials: 'same-origin',
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(response => setProfile(response))
+      .catch(error => console.error(error))
+  }
+
+  if (payload !== null && token !== null) {
+    if (profile === null || profile === undefined) fetchProfile()
+
+    if (courses === null || courses === undefined) fetchCourses()
+  }
 
   // menu tabs
   const locations = [
@@ -106,19 +138,26 @@ const DashboardStruct = ({ children }) => {
             <button type="button">
               <HiChatAlt2 className="w-auto h-8" />
             </button>
-            {
-              <Link href="/dashboard/profile">
-                <button
-                  type="button"
-                  className={clsx('', {
-                    hidden: router.path === '/dashboard/profile'
-                  })}
-                >
-                  <FiUser className="w-auto h-8" />
-                </button>
-              </Link>
-            }
+            <button
+              type="button"
+              className={clsx(
+                'h-10 w-10 rounded-full overflow-hidden relative my-auto',
+                {}
+              )}
+            >
+              {profile !== null ? (
+                <img
+                  className={clsx('object-cover')}
+                  src={profile.profilePic.url}
+                  alt="Profile Image"
+                />
+              ) : (
+                <FiUser className="w-auto h-8" />
+              )}
+            </button>
           </div>
+          {/* Drop-down menu */}
+          <div className="fixed bg-yellow-400 right-14 top-14 p-7"></div>
         </nav>
         {/* menu shadow */}
         <div

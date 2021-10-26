@@ -1,36 +1,40 @@
 import '../styles/globals.css'
-import 'react-phone-number-input/style.css'
+// import 'react-phone-number-input/style.css'
 import { Fragment } from 'react'
 import { useRouter } from 'next/router'
 import DashboardStruct from '@/components/DashboardStruct'
 import Head from 'next/head'
-import shallow from 'zustand/shallow'
 import useStore from '@/store/index'
 import { useIsomorphicLayoutEffect } from '@/hooks/useIsomorphicEffect'
+import jwt from 'jsonwebtoken'
 
 const App = ({ Component, pageProps }) => {
   const router = useRouter()
   // store containers
   const appRef = useStore(state => state.appRef)
-  const [token, setToken] = useStore(
-    state => [state.token, state.setToken],
-    shallow
-  )
+  const setToken = useStore(state => state.setToken)
+  const setPayload = useStore(state => state.setPayload)
+
+  useIsomorphicLayoutEffect(() => {
+    let tok = localStorage.getItem(appRef)
+    if (tok) {
+      tok = JSON.parse(tok)
+      tok = tok === null || tok === undefined ? tok : tok.token
+      setToken(tok)
+      setPayload(jwt.decode(tok))
+    }
+  }, [])
 
   // set token onload
   useIsomorphicLayoutEffect(() => {
     const loadStorage = () => {
-      // watch if storage is defined
-      if (typeof Storage !== 'undefined') {
-        // set storage item if not available
-        if (
-          localStorage.getItem(appRef) !== null ||
-          localStorage.getItem(appRef) !== undefined
-        ) {
-          let tok = JSON.parse(localStorage.getItem(appRef))
-          tok = tok === null || tok === undefined ? tok : tok.token
-          setToken(tok)
-        }
+      // set storage item if not available
+      let tok = localStorage.getItem(appRef)
+      if (tok) {
+        tok = JSON.parse(tok)
+        tok = tok === null || tok === undefined ? tok : tok.token
+        setToken(tok)
+        setPayload(jwt.decode(tok))
       }
     }
 
@@ -41,34 +45,32 @@ const App = ({ Component, pageProps }) => {
       // unsubscribe to load event
       window.removeEventListener('load', loadStorage)
     }
-  }, [token])
+  }, [])
 
   // route user back to index if user doesn't have a token
   useIsomorphicLayoutEffect(() => {
-    let tokenI = window.localStorage.getItem(appRef) ?? null
-    tokenI = JSON.parse(tokenI) ?? null
-    if (
-      tokenI === null ||
-      tokenI === undefined ||
-      tokenI.token === null ||
-      tokenI.token === undefined
-    ) {
+    let tokenI = window.localStorage.getItem(appRef)
+    if (!tokenI) {
       router.push({ pathname: '/' })
     }
-  }, [token])
+  }, [])
 
   // watch for local storage changes
   useIsomorphicLayoutEffect(() => {
     const loadStorageToken = () => {
-      let tok = JSON.parse(localStorage.getItem(appRef))
-      tok = tok === null || tok === undefined ? tok : tok.token
-      setToken(tok)
+      let tok = localStorage.getItem(appRef)
+      if (tok) {
+        tok = JSON.parse(tok)
+        tok = tok === null || tok === undefined ? tok : tok.token
+        setToken(tok)
+        setPayload(jwt.decode(tok))
+      }
     }
     window.addEventListener('storage', loadStorageToken())
     return () => {
       window.removeEventListener('storage', loadStorageToken())
     }
-  }, [token])
+  }, [])
 
   /**
    * route is a dashboard page || component

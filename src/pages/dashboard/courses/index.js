@@ -4,44 +4,17 @@ import DisClosure from '@/components/DisClosure'
 import { motion, AnimateSharedLayout } from 'framer-motion'
 import clsx from 'clsx'
 import useStore from '@/store/index'
-import shallow from 'zustand/shallow'
-import { getCourses } from '@/internals/courses.internal'
 import ProcessSVG from '@/components/ProcessSVG'
 
 const Dashboard = () => {
   const [courseState, setCourseState] = useState('unenrolled') // -> enrolled | unenrolled | all
-  const payload = useStore(state => state.payload)
-  const token = useStore(state => state.token)
-  const [courses, setCourses] = useStore(
-    state => [state.courses, state.setCourses],
-    shallow
-  )
-  const [errorMessage, setErrorMessage] = useState(null)
+  const courses = useStore(state => state.courses)
   const [showProcess, setShowProcess] = useState(true)
 
   // check and set process
   useEffect(() => {
     if (Array.isArray(courses)) setShowProcess(false)
   }, [courses])
-
-  if (payload !== null && token !== null) {
-    getCourses(payload, token)
-      .then(response => {
-        if (response.error) {
-          setErrorMessage(response.error)
-          console.log(response.error)
-        } else {
-          setCourses(response)
-          setShowProcess(false)
-        }
-      })
-      .catch(error => {
-        console.error(error)
-        // Send error message
-        setErrorMessage('Something went wrong!')
-      })
-  }
-  console.log(courses)
 
   // list animation
   const listVariant = {
