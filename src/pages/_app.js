@@ -53,7 +53,7 @@ const App = ({ Component, pageProps }) => {
   useIsomorphicLayoutEffect(() => {
     let tokenI = window.localStorage.getItem(appRef)
     if (!tokenI) {
-      router.push({ pathname: '/' })
+      router.push({ pathname: '/' }) //->, undefined, { shallow: true }
     }
   }, [])
 

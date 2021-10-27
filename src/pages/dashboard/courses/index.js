@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
 import Tabs from '@/components/Tabs'
-import DisClosure from '@/components/DisClosure'
 import { motion, AnimateSharedLayout } from 'framer-motion'
 import clsx from 'clsx'
 import useStore from '@/store/index'
 import ProcessSVG from '@/components/ProcessSVG'
+import CourseCard from '@/components/CourseCard'
 
 const Dashboard = () => {
   const [courseState, setCourseState] = useState('unenrolled') // -> enrolled | unenrolled | all
@@ -24,20 +24,6 @@ const Dashboard = () => {
       x: 0,
       transition: {
         staggerChildren: 0.5
-      }
-    }
-  }
-  // item animation
-  const itemVariant = {
-    hidden: { opacity: 0, x: 25 },
-    show: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        type: 'spring',
-        duration: 0.5,
-        stiffness: 260,
-        damping: 20
       }
     }
   }
@@ -81,26 +67,7 @@ const Dashboard = () => {
               {Array.isArray(courses)
                 ? courses.length > 0 &&
                   courses.map(course => (
-                    <motion.div key={course.course_id} variants={itemVariant}>
-                      <DisClosure
-                        key={course.id}
-                        title={course.name}
-                        description={course.overview}
-                        cta={
-                          <div className={clsx('flex justify-end mt-3')}>
-                            <button
-                              type="button"
-                              tabIndex={-1}
-                              className={clsx(
-                                'px-4 py-2 bg-secondary-light rounded-md font-bold'
-                              )}
-                            >
-                              View
-                            </button>
-                          </div>
-                        }
-                      />
-                    </motion.div>
+                    <CourseCard course={course} key={course.course_id} />
                   ))
                 : undefined}
             </motion.div>
@@ -117,25 +84,7 @@ const Dashboard = () => {
               {Array.isArray(courses)
                 ? courses.length > 0 &&
                   courses.map(course => (
-                    <motion.div key={course.course_id} variants={itemVariant}>
-                      <DisClosure
-                        key={course.id}
-                        title={course.name}
-                        description={course.overview}
-                        cta={
-                          <div className={clsx('flex justify-end mt-3')}>
-                            <button
-                              type="button"
-                              className={clsx(
-                                'px-4 py-2 bg-secondary-light rounded-md font-bold'
-                              )}
-                            >
-                              View
-                            </button>
-                          </div>
-                        }
-                      />
-                    </motion.div>
+                    <CourseCard course={course} key={course.course_id} />
                   ))
                 : undefined}
             </motion.div>

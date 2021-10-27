@@ -35,7 +35,7 @@ const Profile = () => {
             </div>
             {/* Body */}
             <div className="flex flex-col items-center mt-10 md:flex-row">
-              <div className="grid w-full md:w-2/5 md:h-[30vh] place-content-center">
+              <div className="grid w-full md:w-2/5 md:h-[32vh] place-content-center">
                 {/* Image */}
                 <div className="w-[12.5rem] h-[12.5rem] lg:w-[16.5rem] lg:h-[16.5rem] overflow-hidden rounded-full">
                   <img
@@ -113,14 +113,14 @@ const Profile = () => {
           </section>
 
           {/* Update Button */}
-          {/* <button
+          <button
             type="button"
             className={clsx(
-              'px-4 text-xs py-2 rounded-md font-bold bg-secondary-light transform transition-all hover:translate-y-0.5'
+              'px-7 text-xs py-2 rounded-md font-bold bg-secondary-light transform transition-all hover:translate-y-0.5'
             )}
           >
             Update Profile
-          </button> */}
+          </button>
         </div>
       )}
     </main>
