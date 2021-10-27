@@ -1,0 +1,12 @@
+[
+  {
+    "source": "/dashboard",
+    "destination": "/dashboard/courses",
+    "permanent": true
+  },
+  {
+    "source": "/courses",
+    "destination": "/dashboard/courses",
+    "permanent": true
+  }
+]

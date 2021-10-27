@@ -38,3 +38,7 @@ package-lock.json
 
 # editor configs
 .vscode
+.idea
+
+# surplus files
+cor

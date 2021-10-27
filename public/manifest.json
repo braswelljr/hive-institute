@@ -1,0 +1,26 @@
+{
+  "name": "Hive Institute of Technology",
+  "short_name": "Hive Institute of Technology",
+  "orientation": "portrait",
+  "start_url": ".",
+  "theme_color": "#2088ff",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "2222x2306",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo192.png",
+      "sizes": "2222x2306",
+      "type": "image/png"
+    },
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "2222x2306",
+      "type": "image/png"
+    }
+  ]
+}
