@@ -1,4 +1,4 @@
-import { url } from 'src/gloabals'
+import { url } from 'src/globals'
 
 export const fetchCourses = (payload, token, setCourses) =>
   fetch(`${url}/students/${payload.sub}/courses`, {

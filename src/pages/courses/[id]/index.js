@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import clsx from 'clsx'
 import useStore from '@/store/index'
-import { url } from 'src/gloabals'
+import { url } from 'src/globals'
 import ProcessSVG from '@/components/ProcessSVG'
 import { useRouter } from 'next/router'
 import Link from 'next/link'

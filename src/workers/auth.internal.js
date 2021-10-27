@@ -1,5 +1,5 @@
 // api url
-import { url } from 'src/gloabals'
+import { url } from 'src/globals'
 
 // sign in function
 export const signIn = async (email, password) => {
