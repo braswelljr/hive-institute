@@ -1,4 +1,4 @@
-import { url } from './auth.internal'
+import { url } from 'src/gloabals'
 
 export const fetchCourses = (payload, token, setCourses) =>
   fetch(`${url}/students/${payload.sub}/courses`, {
