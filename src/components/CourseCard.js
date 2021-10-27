@@ -29,20 +29,20 @@ const CourseCard = ({ course }) => {
           <div className={clsx('flex justify-end mt-3')}>
             <Link
               href={{
-                pathname: `/dashboard/courses/[id]`,
+                pathname: `/courses/[id]`,
                 query: {
                   id: course.course_id
                 }
               }}
             >
-              <button
-                type="button"
+              <a
+                // target="_blank"
                 className={clsx(
                   'px-4 py-2 bg-secondary-light rounded-md font-bold'
                 )}
               >
                 View
-              </button>
+              </a>
             </Link>
           </div>
         }

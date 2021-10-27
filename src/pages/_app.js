@@ -2,18 +2,35 @@ import '../styles/globals.css'
 // import 'react-phone-number-input/style.css'
 import { Fragment } from 'react'
 import { useRouter } from 'next/router'
-import DashboardStruct from '@/components/DashboardStruct'
+import DashboardLayout from '@/layouts/DashboardLayout'
+import CourseLayout from '@/layouts/CourseLayout'
 import Head from 'next/head'
 import useStore from '@/store/index'
 import { useIsomorphicLayoutEffect } from '@/hooks/useIsomorphicEffect'
 import jwt from 'jsonwebtoken'
+import shallow from 'zustand/shallow'
+import { fetchProfile, fetchCourses } from '@/internals/fetches'
 
 const App = ({ Component, pageProps }) => {
   const router = useRouter()
   // store containers
   const appRef = useStore(state => state.appRef)
-  const setToken = useStore(state => state.setToken)
-  const setPayload = useStore(state => state.setPayload)
+  const [token, setToken] = useStore(
+    state => [state.token, state.setToken],
+    shallow
+  )
+  const [payload, setPayload] = useStore(
+    state => [state.payload, state.setPayload],
+    shallow
+  )
+  const [profile, setProfile] = useStore(
+    state => [state.profile, state.setProfile],
+    shallow
+  )
+  const [courses, setCourses] = useStore(
+    state => [state.courses, state.setCourses],
+    shallow
+  )
 
   useIsomorphicLayoutEffect(() => {
     let tok = localStorage.getItem(appRef)
@@ -74,14 +91,32 @@ const App = ({ Component, pageProps }) => {
     }
   }, [])
 
+  useIsomorphicLayoutEffect(() => {
+    if (payload !== null && token !== null) {
+      if (profile === null || profile === undefined)
+        fetchProfile(payload, token, setProfile)
+
+      if (courses === null || courses === undefined)
+        fetchCourses(payload, token, setCourses)
+    }
+  }, [payload, token, profile, courses])
+
   /**
    * route is a dashboard page || component
    */
   if (router.pathname.split('/')[1] === 'dashboard') {
     return (
-      <DashboardStruct>
+      <DashboardLayout>
         <Component {...pageProps} />
-      </DashboardStruct>
+      </DashboardLayout>
+    )
+  }
+
+  if (router.pathname.split('/')[1] === 'courses') {
+    return (
+      <CourseLayout>
+        <Component {...pageProps} />
+      </CourseLayout>
     )
   }
 

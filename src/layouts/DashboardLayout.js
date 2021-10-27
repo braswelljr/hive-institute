@@ -6,9 +6,7 @@ import clsx from 'clsx'
 import Link from 'next/link'
 import { HiCreditCard, HiCalendar, HiAcademicCap } from 'react-icons/hi'
 import { useRouter } from 'next/router'
-import shallow from 'zustand/shallow'
 import useStore from '@/store/index'
-import { url } from 'src/gloabals'
 
 const MenuTab = forwardRef(({ children, href, setMenu }, ref) => {
   const router = useRouter()
@@ -31,62 +29,11 @@ const MenuTab = forwardRef(({ children, href, setMenu }, ref) => {
   )
 })
 
-const DashboardStruct = ({ children }) => {
+const DashboardLayout = ({ children }) => {
   const router = useRouter()
   const [menu, setMenu] = useState(true)
   const [dropDown, setDropDown] = useState(false)
-  const token = useStore(state => state.token)
-  const payload = useStore(state => state.payload)
-  const [profile, setProfile] = useStore(
-    state => [state.profile, state.setProfile],
-    shallow
-  )
-  const [courses, setCourses] = useStore(
-    state => [state.courses, state.setCourses],
-    shallow
-  )
-
-  const fetchCourses = () => {
-    fetch(`${url}/students/${payload.sub}/courses`, {
-      method: 'GET',
-      withCredentials: true,
-      mode: 'cors',
-      'Access-Control-Allow-Origin': '*',
-      credentials: 'same-origin',
-      headers: {
-        Authorization: 'Bearer ' + token,
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => response.json())
-      .then(response => setCourses(response))
-      .catch(error => console.error(error))
-  }
-
-  const fetchProfile = () => {
-    fetch(`${url}/students/${payload.sub}`, {
-      method: 'GET',
-      withCredentials: true,
-      mode: 'cors',
-      'Access-Control-Allow-Origin': '*',
-      credentials: 'same-origin',
-      headers: {
-        Authorization: 'Bearer ' + token,
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => response.json())
-      .then(response => setProfile(response))
-      .catch(error => console.error(error))
-  }
-
-  useEffect(() => {
-    if (payload !== null && token !== null) {
-      if (profile === null || profile === undefined) fetchProfile()
-
-      if (courses === null || courses === undefined) fetchCourses()
-    }
-  }, [payload, token, profile, courses])
+  const profile = useStore(state => state.profile)
 
   // menu tabs
   const locations = [
@@ -235,4 +182,4 @@ const DashboardStruct = ({ children }) => {
   )
 }
 
-export default DashboardStruct
+export default DashboardLayout
