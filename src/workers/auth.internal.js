@@ -1,5 +1,5 @@
 // api url
-export const url = 'https://hit-api-xqpilz5vla-wm.a.run.app/api/v1'
+import { url } from 'src/globals'
 
 // sign in function
 export const signIn = async (email, password) => {

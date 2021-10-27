@@ -5,6 +5,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+}
 .PhoneInput {
   @apply text-sm;
 }

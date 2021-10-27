@@ -1,12 +1,15 @@
 import '../styles/globals.css'
-import 'react-phone-number-input/style.css'
+// import 'react-phone-number-input/style.css'
 import { Fragment } from 'react'
 import { useRouter } from 'next/router'
-import DashboardStruct from '@/components/DashboardStruct'
+import DashboardLayout from '@/layouts/DashboardLayout'
+import CourseLayout from '@/layouts/CourseLayout'
 import Head from 'next/head'
-import shallow from 'zustand/shallow'
 import useStore from '@/store/index'
 import { useIsomorphicLayoutEffect } from '@/hooks/useIsomorphicEffect'
+import jwt from 'jsonwebtoken'
+import shallow from 'zustand/shallow'
+import { fetchProfile, fetchCourses } from '@/internals/fetches'
 
 const App = ({ Component, pageProps }) => {
   const router = useRouter()
@@ -16,20 +19,40 @@ const App = ({ Component, pageProps }) => {
     state => [state.token, state.setToken],
     shallow
   )
+  const [payload, setPayload] = useStore(
+    state => [state.payload, state.setPayload],
+    shallow
+  )
+  const [profile, setProfile] = useStore(
+    state => [state.profile, state.setProfile],
+    shallow
+  )
+  const [courses, setCourses] = useStore(
+    state => [state.courses, state.setCourses],
+    shallow
+  )
+
+  useIsomorphicLayoutEffect(() => {
+    let tok = localStorage.getItem(appRef)
+    if (tok) {
+      tok = JSON.parse(tok)
+      tok = tok === null || tok === undefined ? tok : tok.token
+      setToken(tok)
+      setPayload(jwt.decode(tok))
+    }
+  }, [])
 
   // set token onload
   useIsomorphicLayoutEffect(() => {
     const loadStorage = () => {
-      // watch if storage is defined
+      // set storage item if not available
       if (typeof Storage !== 'undefined') {
-        // set storage item if not available
-        if (
-          localStorage.getItem(appRef) !== null ||
-          localStorage.getItem(appRef) !== undefined
-        ) {
-          let tok = JSON.parse(localStorage.getItem(appRef))
+        let tok = localStorage.getItem(appRef)
+        if (tok) {
+          tok = JSON.parse(tok)
           tok = tok === null || tok === undefined ? tok : tok.token
           setToken(tok)
+          setPayload(jwt.decode(tok))
         }
       }
     }
@@ -41,43 +64,59 @@ const App = ({ Component, pageProps }) => {
       // unsubscribe to load event
       window.removeEventListener('load', loadStorage)
     }
-  }, [token])
+  }, [])
 
   // route user back to index if user doesn't have a token
   useIsomorphicLayoutEffect(() => {
-    let tokenI = window.localStorage.getItem(appRef) ?? null
-    tokenI = JSON.parse(tokenI) ?? null
-    if (
-      tokenI === null ||
-      tokenI === undefined ||
-      tokenI.token === null ||
-      tokenI.token === undefined
-    ) {
-      router.push({ pathname: '/' })
+    let tokenI = window.localStorage.getItem(appRef)
+    if (!tokenI) {
+      router.push({ pathname: '/' }) //->, undefined, { shallow: true }
     }
-  }, [token])
+  }, [])
 
   // watch for local storage changes
   useIsomorphicLayoutEffect(() => {
     const loadStorageToken = () => {
-      let tok = JSON.parse(localStorage.getItem(appRef))
-      tok = tok === null || tok === undefined ? tok : tok.token
-      setToken(tok)
+      let tok = localStorage.getItem(appRef)
+      if (tok) {
+        tok = JSON.parse(tok)
+        tok = tok === null || tok === undefined ? tok : tok.token
+        setToken(tok)
+        setPayload(jwt.decode(tok))
+      }
     }
     window.addEventListener('storage', loadStorageToken())
     return () => {
       window.removeEventListener('storage', loadStorageToken())
     }
-  }, [token])
+  }, [])
+
+  useIsomorphicLayoutEffect(() => {
+    if (payload !== null && token !== null) {
+      if (profile === null || profile === undefined)
+        fetchProfile(payload, token, setProfile)
+
+      if (courses === null || courses === undefined)
+        fetchCourses(payload, token, setCourses)
+    }
+  }, [payload, token, profile, courses])
 
   /**
    * route is a dashboard page || component
    */
   if (router.pathname.split('/')[1] === 'dashboard') {
     return (
-      <DashboardStruct>
+      <DashboardLayout>
         <Component {...pageProps} />
-      </DashboardStruct>
+      </DashboardLayout>
+    )
+  }
+
+  if (router.pathname.split('/')[1] === 'courses') {
+    return (
+      <CourseLayout>
+        <Component {...pageProps} />
+      </CourseLayout>
     )
   }
 
