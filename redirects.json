@@ -8,5 +8,10 @@
     "source": "/courses",
     "destination": "/dashboard/courses",
     "permanent": true
+  },
+  {
+    "source": "/dashboard/courses/[id]",
+    "destination": "/courses/[id]",
+    "permanent": true
   }
 ]

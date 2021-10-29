@@ -6,6 +6,7 @@ import ProcessSVG from '@/components/ProcessSVG'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import Head from 'next/head'
+import { HiOutlineMail, HiPhone } from 'react-icons/hi'
 
 export const getServerSideProps = async context => {
   const { id } = context.params // returns an object
@@ -65,7 +66,7 @@ const Course = ({ id }) => {
   }
 
   return (
-    <main className={clsx('text-secondary-deep')}>
+    <main className={clsx('text-gray-800')}>
       {typeof course === 'object' && course !== null && (
         <>
           <Head>
@@ -93,7 +94,7 @@ const Course = ({ id }) => {
               </div>
               <h1
                 className={clsx(
-                  'text-xl lg:text-3xl text-center font-bold mt-7 md:mt-16'
+                  'text-xl lg:text-3xl text-center font-black mt-7 md:mt-16'
                 )}
               >
                 {course.name}
@@ -104,21 +105,26 @@ const Course = ({ id }) => {
             <section className="flex justify-end">
               <span className="">
                 Skill Level :{' '}
-                <span className="px-1.5 rounded-xl bg-secondary-light">
+                <span className="px-2 py-1 rounded-xl bg-secondary-light">
                   {course.skill_level}
                 </span>
               </span>
             </section>
             {/* layout - grid */}
-            <section className="grid grid-cols-1 lg:grid-cols-[3fr,2fr] gap-6">
+            <section className="grid grid-cols-1 gap-16 mt-4 lg:grid-cols-2">
               {/* first */}
-              <section className="space-y-6">
-                <section className="">
-                  <h3 className="text-lg font-bold lg:text-2xl">Overview</h3>
+              <section className="divide-y">
+                {/* overview */}
+                <section className="py-5">
+                  <h3 className="text-lg font-bold text-gray-500 lg:text-2xl">
+                    Overview
+                  </h3>
                   <p className="">{course.overview}</p>
                 </section>
-                <section className="">
-                  <h3 className="text-lg font-bold lg:text-2xl">Description</h3>
+                <section className="py-5">
+                  <h3 className="text-lg font-bold text-gray-500 lg:text-2xl">
+                    Description
+                  </h3>
                   <p className="">
                     {
                       new DOMParser().parseFromString(
@@ -128,8 +134,71 @@ const Course = ({ id }) => {
                     }
                   </p>
                 </section>
-                {/* second */}
-                <section className="">Second</section>
+                {/* instrutors */}
+                <section className="py-5">
+                  <h3 className="text-lg font-bold text-gray-500 lg:text-2xl">
+                    Instructors
+                  </h3>
+                  <div className="grid mt-4">
+                    {course.instructors.map(instructor => (
+                      <div
+                        key={instructor.instructor_id}
+                        className={clsx('space-y-1')}
+                      >
+                        <div className="flex items-center justify-start">
+                          <img
+                            src={instructor.profile_pic.url}
+                            alt={instructor.firstname}
+                            className="object-cover w-24 h-24 rounded-full xs:w-36 xs:h-36"
+                          />
+
+                          <div className="p-2 space-y-1 text-xs text-gray-500 sm:text-sm">
+                            <div className="font-black uppercase sm:text-xl">{`${instructor.firstname} ${instructor.lastname}`}</div>
+                            <div className="flex items-center space-x-2">
+                              <HiOutlineMail className="w-auto h-5" />
+                              <span className="">{instructor.email}</span>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <HiPhone className="w-auto h-5" />
+                              <span className="">
+                                {instructor.phone_number}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="mt-4 text-gray-500">
+                          {
+                            new DOMParser().parseFromString(
+                              instructor.bio,
+                              'text/html'
+                            ).documentElement.textContent
+                          }
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              </section>
+              {/* second */}
+              <section className={clsx('border-[0.1px] shadow')}>
+                {/* thumbnail */}
+                <section className="relative">
+                  <img
+                    src={course.thumbnail.url}
+                    alt={course.thumbnail.id}
+                    className="relative inset-0 object-cover w-full h-auto"
+                  />
+                  <div className="absolute inset-0 text-white bg-gray-900 bg-opacity-60">
+                    <div className="">Certification</div>
+                  </div>
+                </section>
+                {/* career paths */}
+                <section className="py-5">
+                  <h3 className="text-lg font-bold text-gray-500 lg:text-2xl">
+                    Career Paths
+                  </h3>
+                  <div className=""></div>
+                </section>
               </section>
             </section>
           </main>
