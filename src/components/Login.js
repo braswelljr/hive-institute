@@ -5,7 +5,6 @@ import { signIn } from 'src/workers/auth.internal'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 import useStore from '@/store/index'
-import shallow from 'zustand/shallow'
 import ProcessSVG from '@/components/ProcessSVG'
 import jwt from 'jsonwebtoken'
 
@@ -20,10 +19,7 @@ const Login = () => {
   const [showProcess, setShowProcess] = useState(false)
   // store containers
   const appRef = useStore(state => state.appRef)
-  const [token, setToken] = useStore(
-    state => [state.token, state.setToken],
-    shallow
-  )
+  const setToken = useStore(state => state.setToken)
   const setPayload = useStore(state => state.setPayload)
 
   // remove notification alert
@@ -189,7 +185,12 @@ const Login = () => {
         {/* <Link href="/verify"> */}
         <button
           type="submit"
-          className="flex items-center justify-center w-full px-3 py-2 text-lg font-semibold text-white rounded bg-primary-light focus:outline-none"
+          disabled={
+            loginEmail.value.length > 0 && loginPassword.value.length > 0
+              ? false
+              : true
+          }
+          className="flex items-center justify-center w-full px-3 py-2 text-lg font-semibold text-white rounded disabled:bg-yellow-300 bg-primary-light focus:outline-none"
         >
           {showProcess ? (
             <ProcessSVG className="w-5 h-5 text-white" />

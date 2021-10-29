@@ -27,14 +27,14 @@ export default function Tabs({
           gridTemplateColumns:
             layout == 'column'
               ? `repeat(${
-                Array.isArray(tabs) ? tabs.length : Object.keys(tabs).length
-              }, minmax(0, 1fr))`
+                  Array.isArray(tabs) ? tabs.length : Object.keys(tabs).length
+                }, minmax(0, 1fr))`
               : ``,
           gridTemplateRows:
             layout != 'column'
               ? `repeat(${
-                Array.isArray(tabs) ? tabs.length : Object.keys(tabs).length
-              }, minmax(0, 1fr))`
+                  Array.isArray(tabs) ? tabs.length : Object.keys(tabs).length
+                }, minmax(0, 1fr))`
               : ``
         }}
       >
