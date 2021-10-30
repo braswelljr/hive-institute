@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import clsx from 'clsx'
 import useStore from '@/store/index'
-import { url } from 'src/globals'
 import ProcessSVG from '@/components/ProcessSVG'
 import Link from 'next/link'
 import Head from 'next/head'
@@ -9,15 +8,18 @@ import {
   HiOutlineMail,
   HiPhone,
   HiChevronDown,
-  HiBadgeCheck
+  HiBadgeCheck,
+  HiChevronLeft,
+  HiChevronRight
 } from 'react-icons/hi'
 import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from 'react-icons/fa'
 import { Disclosure } from '@headlessui/react'
+import { motion } from 'framer-motion'
 
 export const getServerSideProps = async context => {
-  const { id } = context.params // returns an object
+  const { slug } = context.params // returns an object
 
-  if (id === null || id === undefined) {
+  if (slug === null || slug === undefined) {
     return {
       redirect: {
         destination: '/dashboard/courses',
@@ -27,37 +29,28 @@ export const getServerSideProps = async context => {
   }
 
   return {
-    props: { id } // will be passed to the page component as props
+    props: { slug } // will be passed to the page component as props
   }
 }
 
-const Course = ({ id }) => {
+const Course = ({ slug }) => {
   const [course, setCourse] = useState(null)
-  const token = useStore(state => state.token)
-  const payload = useStore(state => state.payload)
   const [showProcess, setShowProcess] = useState(true)
+  const courses = useStore(state => state.courses)
+  const allCourses = useStore(state => state.allCourses)
+  const [active, setActive] = useState(0)
+
+  useEffect(() => {
+    if (courses !== null && allCourses !== null) {
+      setCourse([...courses, ...allCourses].find(sub => sub.slug === slug))
+    }
+  }, [courses, allCourses, slug])
 
   // check and set process
   useEffect(() => {
-    if (typeof course === 'object' && course !== null) setShowProcess(false)
+    if (typeof course === 'object' && course !== null && course !== undefined)
+      setShowProcess(false)
   }, [course])
-
-  if (course === null && payload !== null && token !== null) {
-    fetch(`${url}/students/${payload.sub}/courses/${id}`, {
-      method: 'GET',
-      withCredentials: true,
-      mode: 'cors',
-      'Access-Control-Allow-Origin': '*',
-      credentials: 'same-origin',
-      headers: {
-        Authorization: 'Bearer ' + token,
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => response.json())
-      .then(response => setCourse(response))
-      .catch(error => console.error(error))
-  }
 
   if (showProcess) {
     return (
@@ -72,7 +65,7 @@ const Course = ({ id }) => {
 
   return (
     <main className={clsx('text-gray-800')}>
-      {typeof course === 'object' && course !== null && (
+      {typeof course === 'object' && course !== null && course !== undefined && (
         <>
           <Head>
             <title>Course - {course.name}(HIT)</title>
@@ -80,7 +73,7 @@ const Course = ({ id }) => {
           <header className={clsx('min-h-[40vh] lg:h-[40vh] relative')}>
             {/* banner */}
             <img
-              src={course.banner.url}
+              src={course.banner?.url}
               alt={course.name}
               className={clsx('absolute inset-0 object-cover w-full h-full')}
             />
@@ -244,104 +237,136 @@ const Course = ({ id }) => {
 
               {/* second */}
               <section className={clsx('')}>
-                <section
-                  className={clsx(
-                    'border-[0.1px] rounded-lg overflow-hidden lg:sticky lg:top-28 shadow'
-                  )}
-                >
-                  {/* thumbnail */}
-                  <section className="relative h-[25vh]">
-                    <img
-                      src={course.thumbnail.url}
-                      alt={course.thumbnail.id}
-                      className="absolute inset-0 object-cover w-full h-full"
-                    />
-                    <div className="absolute z-[1] inset-0 text-white bg-gray-900 bg-opacity-60">
-                      {/* <div className="font-black">GH₵ {course.base_price}</div> */}
-                    </div>
-                  </section>
-                  <section className="py-5">
-                    {/* instrutors */}
-                    <div className="mt-4">
-                      {course.instructors.map(instructor => (
-                        <div
-                          key={instructor.instructor_id}
-                          className={clsx('p-5 space-y-4')}
-                        >
-                          <img
-                            src={instructor.profile_pic.url}
-                            alt={instructor.firstname}
-                            className="object-cover w-24 h-24 mx-auto -mt-24 md:-mt-32 relative z-[3] rounded-full xs:w-36 xs:h-36"
-                          />
-                          <div className="space-y-1 text-xs text-gray-500 sm:text-sm">
-                            <h1 className="font-black text-center uppercase sm:text-xl">{`${instructor.firstname} ${instructor.lastname}`}</h1>
-                            {/* social media */}
-                            <div className="flex items-center justify-center py-4 space-x-3">
-                              {instructor.social_media_handles.map(
-                                (handle, i) => {
-                                  var Icon
-                                  switch (handle.platform) {
-                                    case 'LINKEDIN':
-                                      Icon = (
-                                        <FaLinkedin className="w-auto h-8" />
-                                      )
+                <section className={clsx('relative lg:sticky lg:top-28')}>
+                  {/* navigate buttons */}
+                  <button
+                    type="button"
+                    className={clsx(
+                      'bg-gray-200 absolute left-0 transform translate-y-[20rem] -translate-x-6 h-8 w-8 md:h-12 md:w-12 rounded-full grid place-items-center',
+                      { hidden: active <= 0 }
+                    )}
+                    onClick={() => {
+                      active > 0 ? setActive(active - 1) : undefined
+                    }}
+                  >
+                    <HiChevronLeft className="w-auto h-5 md:h-8" />
+                  </button>
+                  <button
+                    type="button"
+                    className={clsx(
+                      'bg-gray-200 absolute right-0 transform translate-y-[20rem] translate-x-6 h-8 w-8 md:h-12 md:w-12 rounded-full grid place-items-center',
+                      { hidden: active >= course.instructors.length - 1 }
+                    )}
+                    onClick={() => {
+                      active < course.instructors.length
+                        ? setActive(active + 1)
+                        : undefined
+                    }}
+                  >
+                    <HiChevronRight className="w-auto h-5 md:h-8" />
+                  </button>
+                  <section
+                    className={clsx(
+                      'border-[0.1px] rounded-lg overflow-hidden shadow'
+                    )}
+                  >
+                    {/* thumbnail */}
+                    <section className="relative h-[25vh]">
+                      <img
+                        src={course.thumbnail.url}
+                        alt={course.thumbnail.id}
+                        className="absolute inset-0 object-cover w-full h-full"
+                      />
+                      <div className="absolute z-[1] inset-0 text-white bg-gray-900 bg-opacity-60" />
+                    </section>
+                    <section className="py-5">
+                      {/* instrutors */}
+                      <div className="mt-4">
+                        {course.instructors.map(
+                          (instructor, i) =>
+                            active === i && (
+                              <motion.div
+                                key={instructor.instructor_id}
+                                className={clsx('p-5 space-y-4')}
+                              >
+                                <img
+                                  src={instructor.profile_pic.url}
+                                  alt={instructor.firstname}
+                                  className="object-cover w-24 h-24 mx-auto -mt-24 md:-mt-32 relative z-[3] rounded-full xs:w-36 xs:h-36"
+                                />
+                                <div className="space-y-1 text-xs text-gray-500 sm:text-sm">
+                                  <h1 className="font-black text-center uppercase sm:text-xl">{`${instructor.firstname} ${instructor.lastname}`}</h1>
+                                  {/* social media */}
+                                  <div className="flex items-center justify-center py-4 space-x-3">
+                                    {instructor.social_media_handles.map(
+                                      (handle, i) => {
+                                        var Icon
+                                        switch (handle.platform) {
+                                          case 'LINKEDIN':
+                                          Icon = (
+                                            <FaLinkedin className="w-auto h-8" />
+                                          )
 
-                                      break
-                                    case 'FACEBOOK':
-                                      Icon = (
-                                        <FaFacebook className="w-auto h-8" />
-                                      )
-                                      break
-                                    case 'INSTAGRAM':
-                                      Icon = (
-                                        <FaInstagram className="w-auto h-8" />
-                                      )
-                                      break
-                                    case 'TWITTER':
-                                      Icon = (
-                                        <FaTwitter className="w-auto h-8" />
-                                      )
-                                      break
-                                    default:
-                                      break
-                                  }
+                                            break
+                                          case 'FACEBOOK':
+                                            Icon = (
+                                            <FaFacebook className="w-auto h-8" />
+                                          )
+                                            break
+                                        case 'INSTAGRAM':
+                                            Icon = (
+                                              <FaInstagram className="w-auto h-8" />
+                                          )
+                                          break
+                                          case 'TWITTER':
+                                          Icon = (
+                                              <FaTwitter className="w-auto h-8" />
+                                          )
+                                          break
+                                          default:
+                                          break
+                                        }
 
-                                  return (
-                                    <a
-                                      key={i}
-                                      href={
-                                        handle.url == '@url' ? '#' : handle.url
+                                        return (
+                                          <a
+                                            key={i}
+                                            href={
+                                              handle.url == '@url'
+                                                ? '#'
+                                                : handle.url
+                                            }
+                                            className="hover:text-gray-800"
+                                          >
+                                            {Icon}
+                                          </a>
+                                        )
                                       }
-                                      className="hover:text-gray-800"
-                                    >
-                                      {Icon}
-                                    </a>
-                                  )
-                                }
-                              )}
-                            </div>
-                            <div className="flex items-center space-x-2">
-                              <HiOutlineMail className="w-auto h-5" />
-                              <span className="">{instructor.email}</span>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                              <HiPhone className="w-auto h-5" />
-                              <span className="">
-                                {instructor.phone_number}
-                              </span>
-                            </div>
-                          </div>
-                          <div className="mt-4 text-gray-500">
-                            {
-                              new DOMParser().parseFromString(
-                                instructor.bio,
-                                'text/html'
-                              ).documentElement.textContent
-                            }
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+                                    )}
+                                  </div>
+                                  <div className="flex items-center space-x-2">
+                                    <HiOutlineMail className="w-auto h-5" />
+                                    <span className="">{instructor.email}</span>
+                                  </div>
+                                  <div className="flex items-center space-x-2">
+                                    <HiPhone className="w-auto h-5" />
+                                    <span className="">
+                                      {instructor.phone_number}
+                                    </span>
+                                  </div>
+                                </div>
+                                <div className="mt-4 text-gray-500">
+                                  {
+                                    new DOMParser().parseFromString(
+                                      instructor.bio,
+                                      'text/html'
+                                    ).documentElement.textContent
+                                  }
+                                </div>
+                              </motion.div>
+                            )
+                        )}
+                      </div>
+                    </section>
                   </section>
                 </section>
               </section>

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import clsx from 'clsx'
 import useStore from '@/store/index'
 import ProcessSVG from '@/components/ProcessSVG'
+import Link from 'next/link'
 
 const Profile = () => {
   const profile = useStore(state => state.profile)
@@ -113,14 +114,16 @@ const Profile = () => {
           </section>
 
           {/* Update Button */}
-          <button
-            type="button"
-            className={clsx(
-              'px-7 text-xs py-2 rounded-md font-bold bg-secondary-light transform transition-all hover:translate-y-0.5'
-            )}
-          >
-            Update Profile
-          </button>
+          <Link href="/dashboard/profile/update">
+            <button
+              type="button"
+              className={clsx(
+                'px-7 text-xs py-2 rounded-md font-bold bg-secondary-light transform transition-all hover:translate-y-0.5'
+              )}
+            >
+              Update Profile
+            </button>
+          </Link>
         </div>
       )}
     </main>

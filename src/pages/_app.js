@@ -9,7 +9,11 @@ import useStore from '@/store/index'
 import { useIsomorphicLayoutEffect } from '@/hooks/useIsomorphicEffect'
 import jwt from 'jsonwebtoken'
 import shallow from 'zustand/shallow'
-import { fetchProfile, fetchCourses } from '@/internals/fetches'
+import {
+  fetchProfile,
+  fetchCourses,
+  fetchAllCourses
+} from '@/internals/fetches'
 
 const App = ({ Component, pageProps }) => {
   const router = useRouter()
@@ -29,6 +33,10 @@ const App = ({ Component, pageProps }) => {
   )
   const [courses, setCourses] = useStore(
     state => [state.courses, state.setCourses],
+    shallow
+  )
+  const [allCourses, setAllCourses] = useStore(
+    state => [state.allCourses, state.setAllCourses],
     shallow
   )
 
@@ -98,8 +106,11 @@ const App = ({ Component, pageProps }) => {
 
       if (courses === null || courses === undefined)
         fetchCourses(payload, token, setCourses)
+
+      if (allCourses === null || allCourses === undefined)
+        fetchAllCourses(token, setAllCourses)
     }
-  }, [payload, token, profile, courses])
+  }, [payload, token, profile, courses, allCourses])
 
   /**
    * route is a dashboard page || component

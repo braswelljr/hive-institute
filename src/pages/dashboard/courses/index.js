@@ -7,8 +7,9 @@ import ProcessSVG from '@/components/ProcessSVG'
 import CourseCard from '@/components/CourseCard'
 
 const Dashboard = () => {
-  const [courseState, setCourseState] = useState('unenrolled') // -> enrolled | unenrolled | all
+  const [courseState, setCourseState] = useState('unenrolled') // -> enrolled | all
   const courses = useStore(state => state.courses)
+  const allCourses = useStore(state => state.allCourses)
   const [showProcess, setShowProcess] = useState(true)
 
   // check and set process
@@ -81,9 +82,9 @@ const Dashboard = () => {
               initial="hidden"
               animate="show"
             >
-              {Array.isArray(courses)
-                ? courses.length > 0 &&
-                  courses.map(course => (
+              {Array.isArray(allCourses)
+                ? allCourses.length > 0 &&
+                  allCourses.map(course => (
                     <CourseCard course={course} key={course.course_id} />
                   ))
                 : undefined}
