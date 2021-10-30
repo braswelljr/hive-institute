@@ -31,3 +31,19 @@ export const fetchProfile = (payload, token, setProfile) =>
     .then(response => response.json())
     .then(response => setProfile(response))
     .catch(error => console.error(error))
+
+export const fetchAllCourses = (token, setProfile) =>
+  fetch(`${url}/courses`, {
+    method: 'GET',
+    withCredentials: true,
+    mode: 'cors',
+    'Access-Control-Allow-Origin': '*',
+    credentials: 'same-origin',
+    headers: {
+      Authorization: 'Bearer ' + token,
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(response => response.json())
+    .then(response => setProfile(response))
+    .catch(error => console.error(error))
