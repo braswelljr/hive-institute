@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import useStore from '@/store/index'
 import ProcessSVG from '@/components/ProcessSVG'
 import Link from 'next/link'
+import { HiPencil } from 'react-icons/hi'
 
 const Profile = () => {
   const profile = useStore(state => state.profile)
@@ -18,7 +19,7 @@ const Profile = () => {
       <main className="text-secondary-deep">
         <h1 className="text-2xl font-bold">Profile</h1>
         <div className="min-h-[75vh] grid place-content-center">
-          <ProcessSVG className={clsx('h-7 w-7 md:h-12 md:w-12')} />
+          <ProcessSVG className={clsx('h-6 w-6 md:h-10 md:w-10')} />
         </div>
       </main>
     )
@@ -35,16 +36,14 @@ const Profile = () => {
               <h2 className="text-sm font-bold">Personal Details</h2>
             </div>
             {/* Body */}
-            <div className="flex flex-col items-center mt-10 md:flex-row">
+            <div className="flex flex-col items-center my-10 md:flex-row">
               <div className="grid w-full md:w-2/5 md:h-[32vh] place-content-center">
                 {/* Image */}
-                <div className="w-[12.5rem] h-[12.5rem] lg:w-[16.5rem] lg:h-[16.5rem] overflow-hidden rounded-full">
-                  <img
-                    src={profile.profilePic.url}
-                    alt="Avatar"
-                    className={clsx('w-full h-full object-cover')}
-                  />
-                </div>
+                <img
+                  src={profile.profilePic.url}
+                  alt="Avatar"
+                  className={clsx('h-52 w-52 object-cover rounded-full')}
+                />
               </div>
               {/* Values */}
               <div className="w-full space-y-3 text-xs lg:text-base md:w-3/5">
@@ -113,17 +112,22 @@ const Profile = () => {
             </div>
           </section>
 
-          {/* Update Button */}
-          <Link href="/dashboard/profile/update">
-            <button
-              type="button"
-              className={clsx(
-                'px-7 text-xs py-2 rounded-md font-bold bg-secondary-light transform transition-all hover:translate-y-0.5'
-              )}
-            >
-              Update Profile
-            </button>
-          </Link>
+          <section>
+            <div className="flex items-center justify-end">
+              {/* Update Button */}
+              <Link href="/dashboard/profile/update">
+                <button
+                  type="button"
+                  className={clsx(
+                    'px-4 text-xs py-2 rounded-md flex space-x-2 items-center font-bold bg-secondary-light transform transition-all hover:translate-y-0.5'
+                  )}
+                >
+                  <HiPencil className="w-auto h-5" />
+                  <span>Update Profile</span>
+                </button>
+              </Link>
+            </div>
+          </section>
         </div>
       )}
     </main>

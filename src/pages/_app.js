@@ -1,5 +1,5 @@
 import '../styles/globals.css'
-// import 'react-phone-number-input/style.css'
+import 'react-phone-number-input/style.css'
 import { Fragment } from 'react'
 import { useRouter } from 'next/router'
 import DashboardLayout from '@/layouts/DashboardLayout'

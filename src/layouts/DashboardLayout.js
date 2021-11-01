@@ -1,4 +1,4 @@
-import { useState, forwardRef, Fragment, useEffect } from 'react'
+import { useState, forwardRef, Fragment } from 'react'
 import { HiChatAlt2, HiPlus } from 'react-icons/hi'
 import { FiUser } from 'react-icons/fi'
 import Head from 'next/head'
@@ -175,7 +175,7 @@ const DashboardLayout = ({ children }) => {
           </div>
         </nav>
         <section className="h-auto mt-28 mb-12 mx-8 lg:mx-auto relative z-[8] lg:mt-24 lg:ml-[20%] lg:mr-[2.5%]">
-          <section className="max-w-5xl mx-auto">{children}</section>
+          <section className="max-w-6xl mx-auto">{children}</section>
         </section>
       </main>
     </Fragment>
