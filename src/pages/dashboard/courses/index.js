@@ -24,7 +24,7 @@ const Dashboard = () => {
       opacity: 1,
       x: 0,
       transition: {
-        staggerChildren: 0.5
+        staggerChildren: 0.2
       }
     }
   }
@@ -34,7 +34,7 @@ const Dashboard = () => {
       <main className="text-secondary-deep">
         <h1 className="text-2xl font-bold">Courses</h1>
         <div className="min-h-[75vh] grid place-content-center">
-          <ProcessSVG className={clsx('h-7 w-7 md:h-12 md:w-12')} />
+          <ProcessSVG className={clsx('h-6 w-6 md:h-10 md:w-10')} />
         </div>
       </main>
     )

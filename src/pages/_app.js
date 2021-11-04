@@ -1,5 +1,5 @@
 import '../styles/globals.css'
-// import 'react-phone-number-input/style.css'
+import 'react-phone-number-input/style.css'
 import { Fragment } from 'react'
 import { useRouter } from 'next/router'
 import DashboardLayout from '@/layouts/DashboardLayout'
@@ -9,11 +9,9 @@ import useStore from '@/store/index'
 import { useIsomorphicLayoutEffect } from '@/hooks/useIsomorphicEffect'
 import jwt from 'jsonwebtoken'
 import shallow from 'zustand/shallow'
-import {
-  fetchProfile,
-  fetchCourses,
-  fetchAllCourses
-} from '@/internals/fetches'
+import { fetchCourses, fetchAllCourses } from '@/internals/fetches'
+import useSWR from 'swr'
+import { url } from 'src/globals'
 
 const App = ({ Component, pageProps }) => {
   const router = useRouter()
@@ -101,9 +99,6 @@ const App = ({ Component, pageProps }) => {
 
   useIsomorphicLayoutEffect(() => {
     if (payload !== null && token !== null) {
-      if (profile === null || profile === undefined)
-        fetchProfile(payload, token, setProfile)
-
       if (courses === null || courses === undefined)
         fetchCourses(payload, token, setCourses)
 
@@ -111,6 +106,44 @@ const App = ({ Component, pageProps }) => {
         fetchAllCourses(token, setAllCourses)
     }
   }, [payload, token, profile, courses, allCourses])
+
+  const options = {
+    method: 'GET',
+    withCredentials: true,
+    mode: 'cors',
+    'Access-Control-Allow-Origin': '*',
+    credentials: 'same-origin',
+    headers: {
+      Authorization: 'Bearer ' + token,
+      'Content-Type': 'application/json'
+    }
+  }
+
+  // Profile
+  const { data: profileData, error: profileError } = useSWR(
+    payload !== null && token !== null
+      ? `${url}/students/${payload.sub}`
+      : null,
+    url => fetch(url, options).then(res => res.json()),
+    { refreshInterval: 1 }
+  )
+  if (!profileError) setProfile(profileData)
+
+  // Courses
+  // const { data: coursesData, error: coursesError } = useSWR(
+  //   payload !== null && token !== null
+  //     ? `${url}/students/${payload.sub}/courses`
+  //     : null,
+  //   url => fetch(url, options).then(res => res.json())
+  // )
+  // coursesError ? console.log(coursesError) : setCourses(coursesData)
+
+  // // AllCourses
+  // const { data: AllCoursesData, error: AllCoursesError } = useSWR(
+  //   payload !== null && token !== null ? `${url}/courses` : null,
+  //   url => fetch(url, options).then(res => res.json())
+  // )
+  // AllCoursesError ? console.log(AllCoursesError) : setAllCourses(AllCoursesData)
 
   /**
    * route is a dashboard page || component
