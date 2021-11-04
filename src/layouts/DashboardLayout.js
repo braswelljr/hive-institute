@@ -100,31 +100,12 @@ const DashboardLayout = ({ children }) => {
               {profile !== null ? (
                 <img
                   className={clsx('object-cover')}
-                  src={profile.profilePic.url}
+                  src={profile?.profilePic?.url}
                   alt="Profile Image"
                 />
               ) : (
                 <FiUser className="w-auto h-8" />
               )}
-            </button>
-          </div>
-          {/* Drop-down menu */}
-          <div
-            className={clsx(
-              'fixed p-2 bg-secondary-light text-secondary-deep w-[70%] md:w-[45%] lg:w-[30%] right-16 top-12 space-y-5',
-              { hidden: !dropDown }
-            )}
-          >
-            <div className="">
-              {profile !== null && (
-                <h3>{profile.firstname ?? profile.lastname}</h3>
-              )}
-            </div>
-            <button
-              type="button"
-              className={clsx('bg-yellow-300 w-full text-sm rounded py-1')}
-            >
-              Sign out
             </button>
           </div>
         </nav>

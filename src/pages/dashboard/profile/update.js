@@ -1,27 +1,71 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import clsx from 'clsx'
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input'
 import flags from 'react-phone-number-input/flags'
 import ProcessSVG from '@/components/ProcessSVG'
 import useStore from '@/store/index'
+import { motion } from 'framer-motion'
 import { FiUser } from 'react-icons/fi'
 import Link from 'next/link'
+import { url } from 'src/globals'
 
 const Update = () => {
   const [firstname, setFirstname] = useState('')
   const [lastname, setLastname] = useState('')
-  const [phone, setPhone] = useState('')
+  const [phone, setPhone] = useState(undefined)
   const [dob, setDob] = useState('')
   const [showProcess, setShowProcess] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(null)
   const profile = useStore(state => state.profile)
+  const token = useStore(state => state.token)
+  const payload = useStore(state => state.payload)
+
+  // remove notification alert
+  useEffect(() => {
+    window.setTimeout(() => setErrorMessage(null), 10000)
+  }, [errorMessage])
 
   const handleSubmit = e => {
     e.preventDefault()
     setShowProcess(true)
+
+    if (token !== null || payload !== null || payload !== undefined) {
+      fetch(`${url}/students/${payload.sub}`, {
+        method: 'PUT',
+        withCredentials: true,
+        mode: 'cors',
+        'Access-Control-Allow-Origin': '*',
+        credentials: 'same-origin',
+        headers: {
+          Authorization: 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: payload.sub,
+          ...(firstname.length > 0 ? { firstname: firstname } : undefined),
+          ...(lastname.length > 0 ? { lastname: lastname } : undefined),
+          ...(phone !== undefined ? { phoneNumber: phone } : undefined),
+          ...(dob > 0 ? { dob: dob } : undefined)
+        })
+      })
+        .then(() => {
+          setShowProcess(false)
+          setFirstname('')
+          setLastname('')
+          setDob('')
+          setPhone(undefined)
+          setErrorMessage('Profile Updated Sucessfully')
+        })
+        .catch(err => {
+          console.log('Oops! Something Happened', err)
+          setErrorMessage('Oops! Something Happened')
+          setShowProcess(false)
+        })
+    }
   }
 
   return (
-    <main className="text-secondary-deep">
+    <main className="relative text-secondary-deep">
       <nav className="max-w-4xl mx-auto">
         <h1 className="text-2xl font-bold">Update Profile</h1>
       </nav>
@@ -46,7 +90,11 @@ const Update = () => {
                   setFirstname(e.target.value)
                 }}
                 autoComplete="off"
-                placeholder={profile === null ? 'Firstname' : profile.firstname}
+                placeholder={
+                  profile === null || profile === undefined
+                    ? 'Firstname'
+                    : profile?.firstname
+                }
                 className={clsx(
                   'w-full px-3 py-2 bg-yellow-100 border rounded focus:outline-none'
                 )}
@@ -66,7 +114,11 @@ const Update = () => {
                   setLastname(e.target.value)
                 }}
                 autoComplete="off"
-                placeholder={profile === null ? 'Lastname' : profile.lastname}
+                placeholder={
+                  profile === null || profile === undefined
+                    ? 'Lastname'
+                    : profile?.lastname
+                }
                 className={clsx(
                   'w-full px-3 py-2 bg-yellow-100 border rounded focus:outline-none'
                 )}
@@ -87,7 +139,6 @@ const Update = () => {
                 setDob(e.target.value)
               }}
               autoComplete="off"
-              placeholder={profile === null ? 'mm / dd / yyyy' : profile.dob}
               className={clsx(
                 'w-full px-3 py-2 bg-yellow-100 border rounded focus:outline-none'
               )}
@@ -103,7 +154,6 @@ const Update = () => {
               countryCallingCodeEditable={false}
               withCountryCallingCode={true}
               defaultCountry="GH"
-              placeholder="50 018 1106"
               value={phone}
               onChange={setPhone}
               error={
@@ -119,7 +169,10 @@ const Update = () => {
           <button
             type="submit"
             disabled={
-              firstname.length > 0 || lastname.length > 0 || dob.length > 0
+              firstname.length > 0 ||
+              lastname.length > 0 ||
+              dob.length > 0 ||
+              phone !== undefined
                 ? false
                 : true
             }
@@ -128,7 +181,7 @@ const Update = () => {
             {showProcess ? (
               <ProcessSVG className="w-6 h-6" />
             ) : (
-              <span className="">Sign In</span>
+              <span className="">Update</span>
             )}
           </button>
         </form>
@@ -151,6 +204,30 @@ const Update = () => {
           </div>
         </section>
       </section>
+
+      {/*  */}
+      {errorMessage !== null && (
+        <motion.div
+          variants={{
+            hidden: { opacity: 0, y: -50 },
+            show: {
+              opacity: 1,
+              y: 0,
+              transition: {
+                // type: 'spring',
+                duration: 0.5,
+                // stiffness: 260,
+                damping: 20
+              }
+            }
+          }}
+          className={clsx(
+            'relative inset-x-0 max-w-4xl w-full text-center px-3 py-2 mx-4 rounded-lg sm:mx-auto bg-secondary-light mt-10'
+          )}
+        >
+          {errorMessage}
+        </motion.div>
+      )}
     </main>
   )
 }
