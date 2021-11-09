@@ -92,7 +92,7 @@ const Login = () => {
             }
           }}
           className={clsx(
-            'absolute inset-x-0 max-w-lg text-center px-3 py-2 mx-4 text-white rounded-lg sm:mx-auto top-4 bg-primary-light'
+            'absolute inset-x-0 max-w-lg text-center px-3 py-2 mx-4 text-white rounded-lg sm:mx-auto top-4 bg-primary-cheese'
           )}
         >
           {errorMessage}
@@ -136,7 +136,7 @@ const Login = () => {
               })
             }}
             className={clsx(
-              'w-full px-3 py-2 bg-yellow-100 border rounded focus:outline-none',
+              'w-full px-3 py-2 bg-primary-thin border rounded focus:outline-none',
               { 'border-red-500': !loginEmail.valid }
             )}
           />
@@ -171,7 +171,7 @@ const Login = () => {
               })
             }}
             className={clsx(
-              'w-full px-3 py-2 bg-yellow-100 border rounded focus:outline-none',
+              'w-full px-3 py-2 bg-primary-thin border rounded focus:outline-none',
               { 'border-red-500': !loginPassword.valid }
             )}
           />
@@ -190,7 +190,7 @@ const Login = () => {
               ? false
               : true
           }
-          className="flex items-center justify-center w-full px-3 py-2 text-lg font-semibold text-white rounded disabled:bg-yellow-300 bg-primary-light focus:outline-none"
+          className="flex items-center justify-center w-full px-3 py-2 text-lg font-semibold text-white rounded disabled:bg-primary-light bg-primary-cheese focus:outline-none"
         >
           {showProcess ? (
             <ProcessSVG className="w-5 h-5 text-white" />

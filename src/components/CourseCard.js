@@ -38,7 +38,7 @@ const CourseCard = ({ course }) => {
               <a
                 // target="_blank"
                 className={clsx(
-                  'px-4 py-2 bg-secondary-light rounded-md font-bold'
+                  'px-4 py-2 bg-primary-thin rounded-md font-bold'
                 )}
               >
                 View Course

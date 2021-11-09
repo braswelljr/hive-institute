@@ -103,13 +103,13 @@ const Course = ({ slug }) => {
             <section className="flex flex-col justify-between space-y-2 md:space-y-0 md:flex-row">
               {course.with_certification === true && (
                 <span className="flex items-center space-x-2">
-                  <HiBadgeCheck className="w-auto h-6 text-primary-light" />
+                  <HiBadgeCheck className="w-auto h-6 text-primary-thin" />
                   <span>Certified</span>
                 </span>
               )}
               <span className="">
                 <span className="hidden md:inline">Skill Level : </span>
-                <span className="px-2 py-1 text-xs rounded-xl bg-primary-light">
+                <span className="px-2 py-1 text-xs rounded-xl bg-text-primary-cheese">
                   {course.skill_level}
                 </span>
               </span>

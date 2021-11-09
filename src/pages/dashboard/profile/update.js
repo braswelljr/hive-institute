@@ -65,7 +65,7 @@ const Update = () => {
   }
 
   return (
-    <main className="relative text-secondary-deep">
+    <main className="relative text-gray-700">
       <nav className="max-w-4xl mx-auto">
         <h1 className="text-2xl font-bold">Update Profile</h1>
       </nav>
@@ -96,7 +96,7 @@ const Update = () => {
                     : profile?.firstname
                 }
                 className={clsx(
-                  'w-full px-3 py-2 bg-yellow-100 border rounded focus:outline-none'
+                  'w-full px-3 py-2 bg-primary-thin border rounded focus:outline-none'
                 )}
               />
             </div>
@@ -120,7 +120,7 @@ const Update = () => {
                     : profile?.lastname
                 }
                 className={clsx(
-                  'w-full px-3 py-2 bg-yellow-100 border rounded focus:outline-none'
+                  'w-full px-3 py-2 bg-primary-thin border rounded focus:outline-none'
                 )}
               />
             </div>
@@ -140,7 +140,7 @@ const Update = () => {
               }}
               autoComplete="off"
               className={clsx(
-                'w-full px-3 py-2 bg-yellow-100 border rounded focus:outline-none'
+                'w-full px-3 py-2 bg-primary-thin border rounded focus:outline-none'
               )}
             />
           </div>

@@ -16,7 +16,7 @@ const Profile = () => {
 
   if (showProcess) {
     return (
-      <main className="text-secondary-deep">
+      <main className="text-gray-700">
         <h1 className="text-2xl font-bold">Profile</h1>
         <div className="min-h-[75vh] grid place-content-center">
           <ProcessSVG className={clsx('h-6 w-6 md:h-10 md:w-10')} />
@@ -26,13 +26,13 @@ const Profile = () => {
   }
 
   return (
-    <main className="pb-4 text-secondary-deep">
+    <main className="pb-4 text-gray-700">
       <h1 className="text-2xl font-bold">Profile</h1>
       {typeof profile === 'object' && profile !== null && (
         <div className={clsx('space-y-6')}>
           {/* Personal Details */}
           <section className={clsx('mt-5')}>
-            <div className="px-4 py-2 rounded-md bg-secondary-light">
+            <div className="px-4 py-2 text-gray-700 rounded-md bg-primary-thin">
               <h2 className="text-sm font-bold">Personal Details</h2>
             </div>
             {/* Body */}
@@ -49,29 +49,29 @@ const Profile = () => {
               <div className="w-full space-y-3 text-xs lg:text-base md:w-3/5">
                 {/* name */}
                 <div className={clsx('space-x-2 flex items-start')}>
-                  <div className="">Name</div> :{' '}
+                  <div className="text-gray-600">Name</div> :{' '}
                   <div className="text-gray-800">
                     {profile.firstname + ' ' + profile.lastname}
                   </div>
                 </div>
                 {/* nationality */}
                 <div className={clsx('space-x-2 flex items-start')}>
-                  <div className="">Nationality</div> :{' '}
+                  <div className="text-gray-600">Nationality</div> :{' '}
                   <div className="text-gray-800">{profile.nationality}</div>
                 </div>
                 {/* email */}
                 <div className={clsx('space-x-2 flex items-start')}>
-                  <div className="">Email</div> :{' '}
+                  <div className="text-gray-600">Email</div> :{' '}
                   <div className="text-gray-800">{profile.email}</div>
                 </div>
                 {/* phone */}
                 <div className={clsx('space-x-2 flex items-start')}>
-                  <div className="">Phone Number</div> :{' '}
+                  <div className="text-gray-600">Phone Number</div> :{' '}
                   <div className="text-gray-800">{profile.phoneNumber}</div>
                 </div>
                 {/* date of birth */}
                 <div className={clsx('space-x-2 flex items-start')}>
-                  <div className="">Date of Birth</div> :{' '}
+                  <div className="text-gray-600">Date of Birth</div> :{' '}
                   <div className="text-gray-800">{profile.dob}</div>
                 </div>
               </div>
@@ -79,7 +79,7 @@ const Profile = () => {
           </section>
           {/* Account Details */}
           <section className={clsx('mt-5 lg:mt-10')}>
-            <div className="px-4 py-2 rounded-md bg-secondary-light">
+            <div className="px-4 py-2 text-gray-700 rounded-md bg-primary-thin">
               <h2 className="text-sm font-bold">Academic Details</h2>
             </div>
             {/* Body */}
@@ -119,7 +119,7 @@ const Profile = () => {
                 <button
                   type="button"
                   className={clsx(
-                    'px-4 text-xs py-2 rounded-md flex space-x-2 items-center font-bold bg-secondary-light transform transition-all hover:translate-y-0.5'
+                    'px-4 text-xs py-2 rounded-md flex space-x-2 items-center font-bold bg-primary-thin transform transition-all hover:translate-y-0.5'
                   )}
                 >
                   <HiPencil className="w-auto h-5" />

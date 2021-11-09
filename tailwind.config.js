@@ -15,16 +15,21 @@ module.exports = {
       colors: {
         gray: color.trueGray,
         primary: {
+          cheese: '#ffa600',
           deep: '#ff4400',
           moderate: '#ff6600',
           semi: '#f88704',
-          light: '#ff8800'
+          light: '#ff8800',
+          thin: '#fff5cb'
         },
         secondary: { deep: '#863000', light: '#fde6aa' }
       },
       fontFamily: {
         sans: ["'Ubuntu'", ...defaultTheme.fontFamily.sans],
         serif: ["'Montserrat'", ...defaultTheme.fontFamily.serif]
+      },
+      shadow: {
+        'custom-def': '2.4px 2.4px 3.2px rgba(0, 0, 0, 0.15)'
       }
     }
   },

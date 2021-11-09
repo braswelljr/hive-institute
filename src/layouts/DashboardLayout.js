@@ -17,7 +17,7 @@ const MenuTab = forwardRef(({ children, href, setMenu }, ref) => {
         className={clsx(
           'flex items-center rounded-2xl font-bold justify-start px-4 py-1 space-x-3',
           {
-            'bg-secondary-light':
+            'bg-primary-thin text-primary-cheese':
               router.pathname.split('/')[2] === `${href.split('/')[2]}`
           }
         )}
@@ -85,7 +85,7 @@ const DashboardLayout = ({ children }) => {
               className="w-auto cursor-pointer h-14"
             />
           </Link>
-          <div className="flex space-x-5 text-secondary-deep">
+          <div className="flex space-x-5 text-gray-700">
             <button type="button">
               <HiChatAlt2 className="w-auto h-8" />
             </button>
@@ -136,13 +136,18 @@ const DashboardLayout = ({ children }) => {
         {/* main menu */}
         <nav
           className={clsx(
-            'pt-16 z-[16] w-2/3 bg-white lg:w-[17.5%] transform duration-300 transition-all inset-y-0 left-0 fixed min-h-screen shadow',
+            'pt-16 z-[16] w-2/3 bg-white lg:w-[17.5%] transform duration-300 transition-all inset-y-0 left-0 fixed min-h-screen',
             { '-translate-x-full lg:translate-x-0': menu }
           )}
+          style={{
+            webkitBoxShadow: '0.1px 0px 3px 0px rgba(0,0,0,0.43)',
+            mozBoxShadow: '0.1px 0px 3px 0px rgba(0,0,0,0.43)',
+            boxShadow: '0.1px 0px 3px 0px rgba(0,0,0,0.43)'
+          }}
         >
           <div
             className={clsx(
-              'flex flex-col mt-12 space-y-4 text-secondary-deep relative font-bold'
+              'flex flex-col mt-12 space-y-4 text-gray-700 relative font-bold'
             )}
           >
             {locations.map(locat => {

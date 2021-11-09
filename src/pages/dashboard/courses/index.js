@@ -31,7 +31,7 @@ const Dashboard = () => {
 
   if (showProcess) {
     return (
-      <main className="text-secondary-deep">
+      <main className="text-gray-700">
         <h1 className="text-2xl font-bold">Courses</h1>
         <div className="min-h-[75vh] grid place-content-center">
           <ProcessSVG className={clsx('h-6 w-6 md:h-10 md:w-10')} />
@@ -41,7 +41,7 @@ const Dashboard = () => {
   }
 
   return (
-    <main className="text-secondary-deep">
+    <main className="text-gray-700">
       <h1 className="text-2xl font-bold">Courses</h1>
       <Tabs
         tabs={{
@@ -51,8 +51,8 @@ const Dashboard = () => {
         selected={courseState}
         onChange={setCourseState}
         className="mt-5"
-        indicatorClassName="bg-secondary-light rounded-full"
-        tabClassName="text-secondary-deep px-4 py-1 text-sm font-semibold"
+        indicatorClassName="bg-primary-thin rounded-full"
+        tabClassName="text-gray-700 px-4 py-1 text-sm font-semibold"
       />
       <section className="mt-2 overflow-hidden">
         <AnimateSharedLayout>

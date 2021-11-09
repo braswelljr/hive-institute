@@ -27,7 +27,7 @@ const CourseLayout = ({ children }) => {
               className="w-auto cursor-pointer h-14"
             />
           </Link>
-          <div className="flex space-x-5 text-secondary-deep">
+          <div className="flex space-x-5 text-primary-cheese">
             <button type="button">
               <HiChatAlt2 className="w-auto h-8" />
             </button>
@@ -39,10 +39,10 @@ const CourseLayout = ({ children }) => {
               )}
               onClick={() => setDropDown(!dropDown)}
             >
-              {profile !== null ? (
+              {profile !== null || profile !== undefined ? (
                 <img
                   className={clsx('object-cover')}
-                  src={profile.profilePic.url}
+                  src={profile?.profilePic.url}
                   alt="Profile Image"
                 />
               ) : (

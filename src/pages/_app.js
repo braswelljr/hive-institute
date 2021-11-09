@@ -129,22 +129,6 @@ const App = ({ Component, pageProps }) => {
   )
   if (!profileError) setProfile(profileData)
 
-  // Courses
-  // const { data: coursesData, error: coursesError } = useSWR(
-  //   payload !== null && token !== null
-  //     ? `${url}/students/${payload.sub}/courses`
-  //     : null,
-  //   url => fetch(url, options).then(res => res.json())
-  // )
-  // coursesError ? console.log(coursesError) : setCourses(coursesData)
-
-  // // AllCourses
-  // const { data: AllCoursesData, error: AllCoursesError } = useSWR(
-  //   payload !== null && token !== null ? `${url}/courses` : null,
-  //   url => fetch(url, options).then(res => res.json())
-  // )
-  // AllCoursesError ? console.log(AllCoursesError) : setAllCourses(AllCoursesData)
-
   /**
    * route is a dashboard page || component
    */
